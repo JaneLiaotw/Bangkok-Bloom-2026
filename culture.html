@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Itinerary</title>
+    <title>Bangkok Itinerary | Transit Ready</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
@@ -11,7 +11,7 @@
 <body class="p-3">
     <header class="mb-2 mt-2 px-2 animate-fadeInUp">
         <h2 class="fw-bold" style="letter-spacing: -1.5px;">Bangkok Saga</h2>
-        <p class="text-soft small"><i class="fas fa-map-marked-alt me-2"></i>大眾運輸導航版</p>
+        <p class="text-soft small"><i class="fas fa-train me-2"></i>大眾運輸精確導航</p>
     </header>
 
     <div class="day-scroller mb-4" id="dayPicker"></div>
@@ -25,17 +25,18 @@
 
     <script>
         const itineraryData = {
-            1: { title: "抵達與奢華初體驗", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝，適應飯店下午茶", eng: "The Lux Arrival", route: "BKK Airport ➟ InterContinental", target: "InterContinental+Bangkok", dist: "機場接駁", time: "12:10 抵達", desc: "抵達後專車接送至飯店。下午享受 37 樓行政酒廊下午茶與 Evening Cocktails。", history: "洲際酒店位於四面佛旁，是曼谷最高雅的經典飯店之一。", humor: "酒廊的香檳已經冰好了，就等您入住。", spots: ["37樓行政酒廊", "四面佛參拜", "Central World 燈飾", "飯店泳池", "Gaysorn Village"] },
-            2: { title: "經典古蹟與河畔 (初一)", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (入寺廟必備)", eng: "Heritage Day", route: "BTS + 船 ➟ 大皇宮 ➟ 鄭王廟", target: "The+Grand+Palace", dist: "大眾運輸", time: "08:30 出發", desc: "搭 BTS 至 Saphan Taksin 轉乘渡船。下午前往鄭王廟，傍晚訪南龍市場。", history: "大皇宮是曼谷最重要的地標，農曆新年期間氣氛熱鬧。", humor: "在鄭王廟拍照時，記得縮小腹。", spots: ["玉佛寺", "大皇宮", "鄭王廟河景", "南龍市場熟食", "酒廊晚餐"] },
-            3: { title: "飯店轉場與時尚購物", weather: "33°C", icon: "fa-bag-shopping", outfit: "輕便好走的服裝與購物袋", eng: "Shopping & Transition", route: "步行 ➟ Grand Hyatt ➟ Siam", target: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km", time: "11:00 轉場", desc: "行李交給禮賓部後步行至對面君悅。享受 Erawan Tea Room，下午逛 Siam 商圈。", history: "Erawan Tea Room 是曼谷泰式下午茶的傳奇代表。", humor: "這是我見過最輕鬆的搬家，只要走過馬路。", spots: ["Erawan Tea Room", "Siam Paragon", "Siam Center", "君悅 Club Lounge", "四面佛"] },
-            4: { title: "在地市場與河畔夜色", weather: "32°C", icon: "fa-shrimp", outfit: "透氣服裝，安多哥市場非常乾淨", eng: "Market & Icon", route: "MRT ➟ 安多哥 ➟ ICONSIAM", target: "ICONSIAM", dist: "MRT 藍線", time: "09:30 出發", desc: "早上搭 MRT 前往貴婦市場。下午轉往 ICONSIAM 體驗奢華版水上市場。", history: "安多哥市場連續多年被選為世界最佳生鮮市場。", humor: "這裡的水果比專櫃化妝品還漂亮。", spots: ["安多哥市場水果", "Siam Square 船麵", "ICONSIAM 水舞", "室內水上市場", "高品質點心"] },
-            5: { title: "最後採買與賦歸", weather: "31°C", icon: "fa-plane", outfit: "長途飛行舒適服裝", eng: "Last Shopping", route: "步行 ➟ Big C ➟ 機場", target: "Suvarnabhumi+Airport", dist: "專車接送", time: "11:30 出發", desc: "Big C 最後採買高品質伴手禮。11:30 專車出發前往 BKK 機場。", history: "Big C Rajdamri 是曼谷貨源最齊全的旗艦店。", humor: "如果行李箱關不起來，那就是買夠了。", spots: ["Big C 伴手禮", "飯店桑拿/泳池", "機場免稅店", "最後一次泰奶", "溫暖的家"] }
+            1: { title: "抵達與奢華初體驗", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝，適應飯店酒廊", eng: "The Lux Arrival", route: "BKK Airport ➟ InterContinental", target: "InterContinental+Bangkok", dist: "機場接駁", time: "12:10 抵達", desc: "專車接送至飯店。下午享受 37 樓行政酒廊下午茶。飯店旁即是 BTS Chit Lom (E1)。", history: "洲際酒店位於曼谷心臟地帶，是 Ratchaprasong 商圈的門戶。", humor: "酒廊的起泡酒是克服時差的唯一解藥。", spots: ["37樓行政酒廊", "四面佛參拜", "Central World", "飯店泳池", "Gaysorn Village"] },
+            2: { title: "經典古蹟與河畔 (初一)", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (寺廟嚴禁短褲短裙)", eng: "Heritage Day", route: "BTS + 船 ➟ 大皇宮 ➟ 鄭王廟", target: "The+Grand+Palace", dist: "Transit", time: "08:30 出發", desc: "搭 BTS 到 Saphan Taksin (S6) 2 號出口碼頭，轉乘橘旗船至 N9 碼頭。大皇宮下午可跨河至鄭王廟。", history: "初一早訪大皇宮，體驗曼谷最莊嚴的春節氣氛。", humor: "鄭王廟的樓梯很陡，拍照時請注意您的優雅。", spots: ["玉佛寺", "大皇宮", "鄭王廟河景", "南龍市場熟食", "酒廊晚餐"] },
+            3: { title: "飯店轉場與時尚購物", weather: "33°C", icon: "fa-bag-shopping", outfit: "輕便服裝，穿上最帥/美的逛街戰袍", eng: "Shopping & Transition", route: "步行 ➟ Grand Hyatt ➟ Siam", target: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km", time: "11:00 轉場", desc: "步行 3 分鐘轉場至君悅。下午搭 BTS 往 Siam 站 (1站路程) 逛 Paragon 商圈。", history: "Erawan Tea Room 的泰式下午茶在曼谷美食圈地位崇高。", humor: "飯店轉場距離極短，連汗都來不及流就到了。", spots: ["Erawan Tea Room", "Siam Paragon", "Siam Center", "君悅 Club Lounge", "四面佛"] },
+            4: { title: "在地市場與河畔夜色", weather: "32°C", icon: "fa-shrimp", outfit: "輕裝便服與舒適好走的鞋", eng: "Market & Icon", route: "MRT ➟ 安多哥 ➟ ICONSIAM", target: "ICONSIAM", dist: "Transit", time: "09:30 出發", desc: "MRT Kamphaeng Phet 站 3 號出口直達安多哥。傍晚搭 BTS 到 Krung Thon Buri 站轉金線到 ICONSIAM。", history: "安多哥市場被選為世界最佳生鮮市場，乾淨程度超乎想像。", humor: "在 ICONSIAM 迷路是正常的，請跟著香氛走。", spots: ["安多哥市場水果", "Siam Square 船麵", "ICONSIAM 水舞", "室內水上市場", "高品質點心"] },
+            5: { title: "最後採買與賦歸", weather: "31°C", icon: "fa-plane", outfit: "飛機裝 (建議薄外套)", eng: "Last Shopping", route: "步行 ➟ Big C ➟ 機場", target: "Suvarnabhumi+Airport", dist: "專車接送", time: "11:30 出發", desc: "Big C Rajdamri 步行即可達。11:30 專車接送前往 BKK 機場。", history: "Big C 的藍象咖哩包是目前公認最高品質的伴手禮。", humor: "行李箱如果真的爆了，Big C 旁邊就有賣行李袋。", spots: ["Big C 伴手禮", "飯店桑拿/泳池", "機場免稅店", "最後一次泰奶", "溫暖的家"] }
         };
 
         function renderDay(d) {
             const data = itineraryData[d];
             const content = document.getElementById('dayContent');
-            const navUrl = "https://www.google.com/maps/dir/?api=1&destination=" + data.target;
+            // 改進導航連結，強制開啟大眾運輸模式
+            const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${data.target}&travelmode=transit`;
 
             const spotsList = data.spots.map((s, i) => `
                 <div class="spot-item">
@@ -47,7 +48,7 @@
                     <div class="hero-info shadow">
                         <div class="d-flex justify-content-between mb-3 small opacity-75">
                             <span class="badge bg-white text-dark">DAY ${d}</span>
-                            <span><i class="fas fa-train me-1"></i> Public Transport</span>
+                            <span><i class="fas fa-train blinking"></i> TRANSIT ACTIVE</span>
                         </div>
                         <div class="row align-items-end">
                             <div class="col-7">
@@ -70,7 +71,7 @@
                             <div class="fw-bold" style="color: #434C5E;">${data.weather}</div>
                         </div>
                         <div class="gear-outfit">
-                            <div class="outfit-tag"><i class="fas fa-tshirt me-1"></i> 穿著建議</div>
+                            <div class="outfit-tag">Outfit Advice</div>
                             <div class="small fw-bold" style="color: #555;">${data.outfit}</div>
                         </div>
                     </div>
@@ -81,8 +82,8 @@
                         <a href="${navUrl}" target="_blank" class="nav-trigger shadow-sm"><i class="fas fa-location-arrow me-2"></i>開啟 Google Map 導航</a>
                     </div>
                     
-                    <div class="history-section"><h6 class="fw-bold small text-soft">知性筆記</h6><p class="small text-soft mb-0">${data.history}</p></div>
-                    <div class="humor-card"><h6 class="fw-bold small" style="color:#DAA520;">小提醒</h6><p class="small mb-0 italic">"${data.humor}"</p></div>
+                    <div class="history-section"><h6 class="fw-bold small text-soft">旅人筆記</h6><p class="small text-soft mb-0">${data.history}</p></div>
+                    <div class="humor-card"><h6 class="fw-bold small" style="color:#DAA520;">溫馨提示</h6><p class="small mb-0 italic">"${data.humor}"</p></div>
                 </div>`;
             localStorage.setItem('bangkok_last_day', d);
         }

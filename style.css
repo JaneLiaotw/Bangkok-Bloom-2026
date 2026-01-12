@@ -9,7 +9,9 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: #F9F7F2;
     color: var(--text-deep);
-    padding-bottom: 120px !important;
+    /* 核心修正：增加底部內距，確保內容不會被導航列擋住 */
+    padding-bottom: 120px !important; 
+    margin: 0;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -24,45 +26,25 @@ body {
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.day-scroller { 
-    display: flex; overflow-x: auto; padding: 10px; gap: 10px; scrollbar-width: none; 
-    position: sticky; top: 0; z-index: 100; background: #F9F7F2;
-    scroll-snap-type: x mandatory;
-}
-.day-scroller::-webkit-scrollbar { display: none; }
-.day-btn { 
-    min-width: 45px; height: 45px; border-radius: 12px; background: white; 
-    border: 1px solid #DAA520; display: flex; align-items: center; 
-    justify-content: center; font-weight: 800; color: #DAA520; scroll-snap-align: center;
-}
-.day-btn.active { background: #DAA520; color: white; transform: scale(1.1); }
-
-.hero-info { background: #000; color: white; border-radius: 25px; padding: 20px; margin-bottom: 15px; }
-.meta-badge { background: rgba(255, 255, 255, 0.15); padding: 3px 8px; border-radius: 8px; font-size: 0.65rem; margin-right: 5px; }
-.spotlight-box { background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 10px; }
-.spot-item { display: flex; align-items: center; margin-bottom: 3px; font-size: 0.7rem; }
-.spot-num { width: 14px; height: 14px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 5px; font-weight: bold; }
-
-.gear-card { background: white; border-radius: 15px; padding: 12px; margin-bottom: 15px; display: flex; align-items: center; }
-.gear-weather { padding-right: 12px; border-right: 1px solid #eee; text-align: center; min-width: 60px; }
-.gear-outfit { padding-left: 12px; font-size: 0.75rem; }
-.outfit-tag { font-size: 0.65rem; color: #DAA520; font-weight: bold; }
-
-.nav-trigger {
-    background: #2D3436; color: white; border-radius: 10px; padding: 10px 15px;
-    text-decoration: none; font-size: 0.8rem; display: block; text-align: center; font-weight: bold;
-}
-
+/* 底部導覽列固定在最上方 */
 .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0; height: 85px;
-    background: rgba(255, 255, 255, 0.95); display: flex; justify-content: space-around; align-items: center;
-    border-top: 1px solid #eee; z-index: 1000;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(85px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.98);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding-bottom: env(safe-area-inset-bottom);
+    border-top: 1px solid #eee;
+    z-index: 9999;
 }
+
 .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
 .bottom-nav a.active { color: #DAA520; }
+.bottom-nav a i { font-size: 1.4rem; margin-bottom: 4px; }
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; }
-.x-small { font-size: 0.7rem; }
-.blinking { animation: blink 2s infinite; color: #00FF00; }
-@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }

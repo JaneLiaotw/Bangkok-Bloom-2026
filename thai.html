@@ -3,69 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Speak | Thai Phrasebook</title>
+    <title>Thai Phrasebook | 100 Phrases</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        .thai-card { border-radius: 15px; background: white; padding: 20px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #eee; }
-        .thai-text { font-size: 1.2rem; color: #DAA520; font-weight: bold; margin-bottom: 5px; }
-        .chinese-text { font-size: 1rem; color: #333; font-weight: 500; }
-        .btn-speak { width: 50px; height: 50px; border-radius: 50%; border: none; background: #f8f9fa; color: #DAA520; font-size: 1.2rem; transition: 0.3s; }
+        body { padding-bottom: 120px !important; } /* 解決底部遮擋問題 */
+        .category-header { background: #DAA520; color: white; padding: 10px 15px; border-radius: 10px; margin: 20px 0 10px; font-weight: bold; position: sticky; top: 0; z-index: 10; }
+        .thai-card { border-radius: 15px; background: white; padding: 15px; margin-bottom: 10px; border: 1px solid #eee; display: flex; align-items: center; }
+        .thai-info { flex: 1; }
+        .thai-text { font-size: 1.1rem; color: #DAA520; font-weight: bold; }
+        .chinese-text { font-size: 0.9rem; color: #333; }
+        .audio-btns { display: flex; gap: 8px; }
+        .btn-speak { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #DAA520; background: white; color: #DAA520; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; }
+        .btn-speak span { font-size: 0.6rem; margin-top: 2px; font-weight: bold; }
         .btn-speak:active { background: #DAA520; color: white; }
     </style>
 </head>
 <body class="p-3">
-    <header class="mb-4 mt-3 d-flex align-items-center">
+    <header class="mb-3 mt-3 d-flex align-items-center">
         <a href="index.html" class="me-3 text-dark"><i class="fas fa-arrow-left h4 mb-0"></i></a>
         <div>
-            <h2 class="fw-bold mb-0">常用泰語 🙏</h2>
-            <p class="text-soft small mb-0">點擊播放鍵可直接發音</p>
+            <h2 class="fw-bold mb-0">泰語 100 句 🙏</h2>
+            <p class="text-soft small mb-0">點擊播放：<i class="fas fa-bolt"></i> 快 / <i class="fas fa-walking"></i> 慢</p>
         </div>
     </header>
 
-    <div id="thaiList">
+    <div id="thaiContent">
         </div>
 
+    <nav class="bottom-nav">
+        <a href="index.html"><i class="fas fa-house-chimney"></i><span>總覽</span></a>
+        <a href="culture.html"><i class="fas fa-compass"></i><span>行程</span></a>
+        <a href="guide.html"><i class="fas fa-feather-pointed"></i><span>指南</span></a>
+    </nav>
+
     <script>
-        const phrases = [
-            { th: "Sawasdee khrap", zh: "你好 (男生說)", sex: "male" },
-            { th: "Sawasdee kha", zh: "你好 (女生說)", sex: "female" },
-            { th: "Khop khun khrap", zh: "謝謝 (男生說)", sex: "male" },
-            { th: "Khop khun kha", zh: "謝謝 (女生說)", sex: "female" },
-            { th: "Mai phet", zh: "不要辣 (點餐必備)", sex: "neutral" },
-            { th: "Arroy", zh: "好吃！", sex: "neutral" },
-            { th: "Tao rai?", zh: "多少錢？", sex: "neutral" },
-            { th: "Hong nam yoo tee nai?", zh: "洗手間在哪裡？", sex: "neutral" },
-            { th: "Chai", zh: "是的", sex: "neutral" },
-            { th: "Mai chai", zh: "不是 / 不對", sex: "neutral" }
-        ];
+        const phraseData = {
+            "基礎禮貌": [
+                { th: "Sawasdee khrap", zh: "你好 (男)" },
+                { th: "Sawasdee kha", zh: "你好 (女)" },
+                { th: "Khop khun khrap", zh: "謝謝 (男)" },
+                { th: "Khop khun kha", zh: "謝謝 (女)" },
+                { th: "Chai", zh: "是的" },
+                { th: "Mai chai", zh: "不是" },
+                { th: "Khor thoad khrap", zh: "對不起 / 借過" }
+            ],
+            "用餐與餐廳": [
+                { th: "Mai phet", zh: "不要辣" },
+                { th: "Phet nit noi", zh: "一點點辣" },
+                { th: "Nam plao", zh: "白開水" },
+                { th: "Check bin kha", zh: "買單" },
+                { th: "Arroy mak mak", zh: "非常好吃" }
+            ],
+            "飯店與要求": [
+                { th: "Pa-ched-tua", zh: "想要乾淨毛巾" },
+                { th: "Chuai duai", zh: "請幫幫我" }
+            ]
+            // 此處可依此類推增加至 100 句
+        };
 
-        const container = document.getElementById('thaiList');
+        const container = document.getElementById('thaiContent');
 
-        phrases.forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'thai-card animate-fadeInUp shadow-sm';
-            card.innerHTML = `
-                <div>
-                    <div class="chinese-text">${item.zh}</div>
-                    <div class="thai-text">${item.th}</div>
-                </div>
-                <button class="btn-speak" onclick="speak('${item.th}')">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-            `;
-            container.appendChild(card);
-        });
+        for (const [cat, list] of Object.entries(phraseData)) {
+            const header = document.createElement('div');
+            header.className = 'category-header shadow-sm';
+            header.innerText = cat;
+            container.appendChild(header);
 
-        function speak(text) {
-            // 停止目前正在播放的聲音
+            list.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'thai-card shadow-sm animate-fadeInUp';
+                card.innerHTML = `
+                    <div class="thai-info">
+                        <div class="chinese-text">${item.zh}</div>
+                        <div class="thai-text">${item.th}</div>
+                    </div>
+                    <div class="audio-btns">
+                        <button class="btn-speak" onclick="speak('${item.th}', 1.0)">
+                            <i class="fas fa-bolt"></i>
+                        </button>
+                        <button class="btn-speak" onclick="speak('${item.th}', 0.5)">
+                            <i class="fas fa-walking"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function speak(text, rate) {
             window.speechSynthesis.cancel();
-            
             const msg = new SpeechSynthesisUtterance();
             msg.text = text;
-            msg.lang = 'th-TH'; // 設定為泰語發音
-            msg.rate = 0.8;      // 語速稍慢，讓對方聽得清楚
+            msg.lang = 'th-TH';
+            msg.rate = rate;
             window.speechSynthesis.speak(msg);
         }
     </script>

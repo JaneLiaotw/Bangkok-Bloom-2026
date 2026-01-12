@@ -3,15 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Itinerary | Map Fixed</title>
+    <title>Bangkok Itinerary | Final Precision</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .spot-btn { 
+            background: rgba(255, 255, 255, 0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 4px 8px;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            transition: 0.2s;
+        }
+        .spot-btn:active { background: #DAA520; transform: scale(0.95); }
+        .spot-num { width: 16px; height: 16px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 8px; font-weight: 800; }
+        .spot-name { font-size: 0.7rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .bottom-spacer { height: 150px; } /* 解決底部滑不動的問題 */
+    </style>
 </head>
 <body class="p-3">
     <header class="mb-2 mt-2 px-2 animate-fadeInUp">
         <h2 class="fw-bold" style="letter-spacing: -1.5px;">Bangkok Saga</h2>
-        <p class="text-soft small"><i class="fas fa-location-dot me-2"></i>100% 導航修正版</p>
+        <p class="text-soft small"><i class="fas fa-train me-2"></i>大眾運輸與景點精確導航</p>
     </header>
 
     <div class="day-scroller mb-4" id="dayPicker"></div>
@@ -25,20 +43,69 @@
 
     <script>
         const itineraryData = {
-            1: { title: "抵達與奢華初體驗", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝", eng: "Arrival", route: "BKK Airport ➟ Hotel", query: "InterContinental+Bangkok", dist: "機場接駁", time: "12:10 抵達", desc: "專車接送。下午享受行政酒廊下午茶。飯店旁即是 BTS Chit Lom。", spots: ["37樓行政酒廊", "四面佛參拜", "Central World", "飯店泳池", "Gaysorn Village"] },
-            2: { title: "經典古蹟與河畔 (初一)", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (必備)", eng: "Heritage Day", route: "BTS + 船 ➟ 大皇宮", query: "The+Grand+Palace", dist: "Transit", time: "08:30 出發", desc: "搭 BTS 到 Saphan Taksin 2號出口轉橘旗船。下午跨河至鄭王廟。", spots: ["玉佛寺", "大皇宮", "鄭王廟", "南龍市場", "酒廊晚餐"] },
-            3: { title: "飯店轉場與時尚購物", weather: "33°C", icon: "fa-bag-shopping", outfit: "舒適逛街服裝", eng: "Shopping", route: "步行 ➟ Grand Hyatt", query: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km", time: "11:00 轉場", desc: "步行轉場。下午逛 Siam Paragon 商圈。", spots: ["Erawan Tea Room", "Siam Paragon", "Siam Center", "君悅酒廊", "四面佛"] },
-            4: { title: "在地市場與河畔夜色", weather: "32°C", icon: "fa-shrimp", outfit: "輕便服飾", eng: "Market & Icon", route: "MRT ➟ 安多哥 ➟ ICONSIAM", query: "ICONSIAM", dist: "Transit", time: "09:30 出發", desc: "MRT Kamphaeng Phet 3號出口直達。傍晚往 ICONSIAM。", spots: ["安多哥市場", "Siam Square 船麵", "ICONSIAM 水舞", "室內水上市場", "高品質點心"] },
-            5: { title: "最後採買與賦歸", weather: "31°C", icon: "fa-plane", outfit: "飛機裝", eng: "Farewell", route: "步行 ➟ Big C ➟ 機場", query: "Suvarnabhumi+Airport", dist: "專車接送", time: "11:30 出發", desc: "Big C Rajdamri 採買。11:30 專車前往機場。", spots: ["Big C 伴手禮", "飯店桑拿", "機場免稅店", "最後泰奶", "溫暖的家"] }
+            1: { 
+                title: "抵達與奢華初體驗", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝", eng: "The Lux Arrival", route: "BKK ➟ InterContinental", target: "InterContinental+Bangkok", dist: "機場接駁", time: "12:10 抵達", 
+                desc: "機場接送直達飯店。下午享受 37 樓行政酒廊。飯店旁即是 BTS Chit Lom (E1)，空橋直通 Central World。", 
+                spots: [
+                    { name: "洲際行政酒廊", q: "InterContinental+Bangkok+Club+Lounge" },
+                    { name: "四面佛參拜", q: "Erawan+Shrine" },
+                    { name: "Central World", q: "Central+World+Bangkok" },
+                    { name: "Gaysorn Village", q: "Gaysorn+Village" }
+                ] 
+            },
+            2: { 
+                title: "經典古蹟與河畔 (初一)", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (寺廟禁短裙)", eng: "Heritage Day", route: "BTS + 船 ➟ 大皇宮", target: "The+Grand+Palace", dist: "Transit", time: "08:30 出發", 
+                desc: "搭 BTS 到 Saphan Taksin 2 號出口轉乘橘旗船 (16THB)。大皇宮下午可搭小船跨河至鄭王廟。", 
+                spots: [
+                    { name: "大皇宮/玉佛寺", q: "The+Grand+Palace" },
+                    { name: "鄭王廟", q: "Wat+Arun" },
+                    { name: "中央碼頭", q: "Sathorn+Pier" },
+                    { name: "南龍市場熟食", q: "Nang+Loeng+Market" }
+                ] 
+            },
+            3: { 
+                title: "飯店轉場與時尚購物", weather: "33°C", icon: "fa-bag-shopping", outfit: "輕便服裝與逛街戰袍", eng: "Shopping & Transition", route: "步行 ➟ Grand Hyatt", target: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km", time: "11:00 轉場", 
+                desc: "步行 3 分鐘轉場至曼谷君悅。下午逛 Siam 商圈，三棟百貨 (Paragon/Center/Discovery) 連在一起。", 
+                spots: [
+                    { name: "曼谷君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok" },
+                    { name: "Erawan Tea Room", q: "Erawan+Tea+Room" },
+                    { name: "Siam Paragon", q: "Siam+Paragon" },
+                    { name: "Siam Discovery", q: "Siam+Discovery" }
+                ] 
+            },
+            4: { 
+                title: "在地市場與河畔夜色", weather: "32°C", icon: "fa-shrimp", outfit: "舒適好走的鞋", eng: "Market & Icon", route: "MRT ➟ 安多哥 ➟ ICONSIAM", target: "ICONSIAM", dist: "Transit", time: "09:30 出發", 
+                desc: "MRT Kamphaeng Phet 站 3 號出口即安多哥。傍晚由 BTS Krung Thon Buri 轉金線直達 ICONSIAM。", 
+                spots: [
+                    { name: "安多哥市場", q: "Or+Tor+Kor+Market" },
+                    { name: "ICONSIAM", q: "ICONSIAM" },
+                    { name: "Siam Square 船麵", q: "Siam+Square" },
+                    { name: "室內水上市場", q: "SookSiam+at+ICONSIAM" }
+                ] 
+            },
+            5: { 
+                title: "最後採買與賦歸", weather: "31°C", icon: "fa-plane", outfit: "飛機裝 (建議薄外套)", eng: "Last Shopping", route: "步行 ➟ Big C ➟ BKK 機場", target: "Suvarnabhumi+Airport", dist: "專車接送", time: "11:30 出發", 
+                desc: "Big C Rajdamri 步行即可達。11:30 專車接送前往 BKK 機場。提早兩小時抵達辦理退稅。", 
+                spots: [
+                    { name: "Big C Rajdamri", q: "Big+C+Supercenter+Rajdamri" },
+                    { name: "曼谷機場 BKK", q: "Suvarnabhumi+Airport" },
+                    { name: "最後一次泰奶", q: "After+You+Dessert+Cafe" }
+                ] 
+            }
         };
 
         function renderDay(d) {
             const data = itineraryData[d];
             const content = document.getElementById('dayContent');
-            // 修正導航格式：使用標準 Google Search Query 導航
-            const navUrl = `https://www.google.com/maps/dir/?api=1&destination=${data.query}&travelmode=transit`;
+            
+            // 修正導航連結：使用 Google Maps Search API
+            const getMapLink = (query) => `https://www.google.com/maps/search/?api=1&query=${query}&travelmode=transit`;
 
-            const spotsList = data.spots.map((s, i) => `<div class="spot-item"><div class="spot-num">${i + 1}</div><span>${s}</span></div>`).join('');
+            const spotsList = data.spots.map((spot, i) => `
+                <a href="${getMapLink(spot.q)}" target="_blank" class="spot-btn">
+                    <div class="spot-num">${i + 1}</div>
+                    <div class="spot-name">${spot.name}</div>
+                </a>`).join('');
 
             content.innerHTML = `
                 <div class="animate-fadeInUp">
@@ -48,14 +115,14 @@
                             <span><i class="fas fa-train blinking"></i> TRANSIT ACTIVE</span>
                         </div>
                         <div class="row align-items-end">
-                            <div class="col-7">
+                            <div class="col-6">
                                 <h3 class="fw-bold mb-1">${data.title}</h3>
                                 <p class="small opacity-75 mb-3">${data.eng}</p>
                                 <div class="d-flex"><span class="meta-badge">${data.dist}</span><span class="meta-badge">${data.time}</span></div>
                             </div>
-                            <div class="col-5">
+                            <div class="col-6">
                                 <div class="spotlight-box">
-                                    <div class="fw-bold mb-2" style="font-size:0.6rem; color:#DAA520;">TOP SPOTS</div>
+                                    <div class="fw-bold mb-2" style="font-size:0.6rem; color:#DAA520; letter-spacing:1px;">TOP SPOTS (TAP TO NAV)</div>
                                     ${spotsList}
                                 </div>
                             </div>
@@ -64,14 +131,16 @@
 
                     <div class="gear-card">
                         <div class="gear-weather"><i class="fas ${data.icon} mb-1" style="color: #DAA520;"></i><div class="fw-bold">${data.weather}</div></div>
-                        <div class="gear-outfit"><div class="outfit-tag">Outfit</div><div class="small fw-bold">${data.outfit}</div></div>
+                        <div class="gear-outfit"><div class="outfit-tag">Outfit Advice</div><div class="small fw-bold">${data.outfit}</div></div>
                     </div>
                     
-                    <div class="glass-card mb-3">
+                    <div class="glass-card mb-3" style="background: rgba(255,255,255,0.7);">
                         <h6 class="fw-bold"><i class="fas fa-route me-2 text-primary"></i>${data.route}</h6>
                         <p class="small text-muted mb-3">${data.desc}</p>
-                        <a href="${navUrl}" target="_blank" class="nav-trigger"><i class="fas fa-location-arrow me-2"></i>導航至目的地</a>
+                        <a href="${getMapLink(data.target)}" target="_blank" class="nav-trigger shadow-sm"><i class="fas fa-location-arrow me-2"></i>導航至今日主景點</a>
                     </div>
+                    
+                    <div class="bottom-spacer"></div>
                 </div>`;
             localStorage.setItem('bangkok_last_day', d);
         }
@@ -88,8 +157,10 @@
             };
             picker.appendChild(btn);
         }
-        renderDay(parseInt(localStorage.getItem('bangkok_last_day')) || 1);
-        document.querySelector(`.day-id-${localStorage.getItem('bangkok_last_day') || 1}`).classList.add('active');
+
+        const savedDay = parseInt(localStorage.getItem('bangkok_last_day')) || 1;
+        renderDay(savedDay);
+        document.querySelector(`.day-id-${savedDay}`).classList.add('active');
     </script>
 </body>
 </html>

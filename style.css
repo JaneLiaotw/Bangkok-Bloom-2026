@@ -1,5 +1,5 @@
 :root {
-    --nordic-pink: #DAA520; /* 曼谷金 */
+    --nordic-pink: #DAA520;
     --text-deep: #2D3436;
     --text-soft: #636E72;
     --glass: rgba(255, 255, 255, 0.75);
@@ -13,7 +13,6 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
-/* 行程捲軸優化 */
 .day-scroller { 
     display: flex; overflow-x: auto; padding: 10px; gap: 12px; scrollbar-width: none; 
     position: sticky; top: 0; z-index: 100; background: #FFFCF5;
@@ -77,6 +76,5 @@ body {
 .history-section { border-left: 4px solid #DAA520; padding-left: 15px; margin: 20px 0; }
 .humor-card { background: rgba(218, 165, 32, 0.1); border-radius: 15px; padding: 15px; border: 1px dashed #DAA520; }
 
-/* 閃爍動畫用於 GPS 狀態 */
 @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 .blinking { animation: blink 1.5s infinite; color: #00FF00; }

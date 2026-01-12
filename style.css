@@ -7,10 +7,27 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #FFFCF5; /* 暖白底色 */
+    background: #FFFCF5;
     color: var(--text-deep);
-    padding-bottom: calc(100px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+    -webkit-tap-highlight-color: transparent;
 }
+
+/* 行程捲軸優化 */
+.day-scroller { 
+    display: flex; overflow-x: auto; padding: 10px; gap: 12px; scrollbar-width: none; 
+    position: sticky; top: 0; z-index: 100; background: #FFFCF5;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+}
+.day-scroller::-webkit-scrollbar { display: none; }
+.day-btn { 
+    min-width: 50px; height: 50px; border-radius: 15px; background: white; 
+    border: 1.5px solid #DAA520; display: flex; align-items: center; 
+    justify-content: center; font-weight: 800; color: #DAA520; transition: 0.3s;
+    scroll-snap-align: center;
+}
+.day-btn.active { background: #DAA520; color: white; transform: scale(1.1); box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3); }
 
 .glass-card {
     background: var(--glass);
@@ -20,45 +37,30 @@ body {
     border-radius: 24px;
     padding: 20px;
     margin-bottom: 15px;
-    box-shadow: 0 10px 30px rgba(218, 165, 32, 0.1);
+    box-shadow: 0 10px 30px rgba(218, 165, 32, 0.08);
 }
 
-/* 行程天數捲軸 */
-.day-scroller { 
-    display: flex; overflow-x: auto; padding: 10px; gap: 12px; scrollbar-width: none; 
-    position: sticky; top: 0; z-index: 100; background: #FFFCF5;
-}
-.day-scroller::-webkit-scrollbar { display: none; }
-.day-btn { 
-    min-width: 50px; height: 50px; border-radius: 15px; background: white; 
-    border: 1.5px solid #DAA520; display: flex; align-items: center; 
-    justify-content: center; font-weight: 800; color: #DAA520; transition: 0.3s;
-}
-.day-btn.active { background: #DAA520; color: white; transform: scale(1.1); }
-
-/* 行程卡片英雄區 */
 .hero-info { 
     background: linear-gradient(135deg, #2D3436 0%, #000000 100%); 
     color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; 
 }
-.meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; }
-.spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 10px; }
-.spot-item { display: flex; align-items: center; margin-bottom: 4px; font-size: 0.7rem; color: rgba(255,255,255,0.9); }
-.spot-num { width: 14px; height: 14px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 6px; }
 
-/* 天氣與穿搭卡片 */
-.gear-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; }
+.spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 10px; border: 1px solid rgba(255,255,255,0.1); }
+.spot-item { display: flex; align-items: center; margin-bottom: 4px; font-size: 0.7rem; color: rgba(255,255,255,0.95); }
+.spot-num { width: 14px; height: 14px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 6px; font-weight: 800; }
+
+.gear-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; }
 .gear-weather { padding-right: 15px; border-right: 1px solid #eee; text-align: center; min-width: 65px; }
 .gear-outfit { padding-left: 15px; }
-.outfit-tag { font-size: 0.7rem; color: #DAA520; font-weight: 700; text-transform: uppercase; }
+.outfit-tag { font-size: 0.7rem; color: #DAA520; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
 
-/* 導航按鈕 */
 .nav-trigger {
-    background: #2D3436; color: white; border-radius: 12px; padding: 10px 20px;
-    text-decoration: none; font-size: 0.85rem; display: inline-block; font-weight: 600;
+    background: #2D3436; color: white; border-radius: 12px; padding: 12px 20px;
+    text-decoration: none; font-size: 0.85rem; display: inline-block; font-weight: 600; transition: 0.3s;
 }
+.nav-trigger:active { transform: scale(0.95); opacity: 0.8; }
 
-/* 底部導航 */
 .bottom-nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     height: calc(85px + env(safe-area-inset-bottom));
@@ -67,12 +69,14 @@ body {
     padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid rgba(0,0,0,0.05); z-index: 10000;
 }
 .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; transition: 0.3s; }
-.bottom-nav a i { font-size: 1.4rem; margin-bottom: 4px; }
 .bottom-nav a.active { color: #DAA520; transform: translateY(-3px); }
 
-/* 動畫 */
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fadeInUp { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
 
 .history-section { border-left: 4px solid #DAA520; padding-left: 15px; margin: 20px 0; }
-.humor-card { background: rgba(218, 165, 32, 0.1); border-radius: 15px; padding: 15px; }
+.humor-card { background: rgba(218, 165, 32, 0.1); border-radius: 15px; padding: 15px; border: 1px dashed #DAA520; }
+
+/* 閃爍動畫用於 GPS 狀態 */
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+.blinking { animation: blink 1.5s infinite; color: #00FF00; }

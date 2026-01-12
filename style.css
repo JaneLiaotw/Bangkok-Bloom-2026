@@ -2,79 +2,67 @@
     --nordic-pink: #DAA520;
     --text-deep: #2D3436;
     --text-soft: #636E72;
-    --glass: rgba(255, 255, 255, 0.75);
+    --glass: rgba(255, 255, 255, 0.85);
 }
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #FFFCF5;
+    background: #F9F7F2;
     color: var(--text-deep);
-    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: 120px !important;
     -webkit-tap-highlight-color: transparent;
 }
 
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
 .day-scroller { 
-    display: flex; overflow-x: auto; padding: 10px; gap: 12px; scrollbar-width: none; 
-    position: sticky; top: 0; z-index: 100; background: #FFFCF5;
-    -webkit-overflow-scrolling: touch;
+    display: flex; overflow-x: auto; padding: 10px; gap: 10px; scrollbar-width: none; 
+    position: sticky; top: 0; z-index: 100; background: #F9F7F2;
     scroll-snap-type: x mandatory;
 }
 .day-scroller::-webkit-scrollbar { display: none; }
 .day-btn { 
-    min-width: 50px; height: 50px; border-radius: 15px; background: white; 
-    border: 1.5px solid #DAA520; display: flex; align-items: center; 
-    justify-content: center; font-weight: 800; color: #DAA520; transition: 0.3s;
-    scroll-snap-align: center;
+    min-width: 45px; height: 45px; border-radius: 12px; background: white; 
+    border: 1px solid #DAA520; display: flex; align-items: center; 
+    justify-content: center; font-weight: 800; color: #DAA520; scroll-snap-align: center;
 }
-.day-btn.active { background: #DAA520; color: white; transform: scale(1.1); box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3); }
+.day-btn.active { background: #DAA520; color: white; transform: scale(1.1); }
 
-.glass-card {
-    background: var(--glass);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 24px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 10px 30px rgba(218, 165, 32, 0.08);
-}
+.hero-info { background: #000; color: white; border-radius: 25px; padding: 20px; margin-bottom: 15px; }
+.meta-badge { background: rgba(255, 255, 255, 0.15); padding: 3px 8px; border-radius: 8px; font-size: 0.65rem; margin-right: 5px; }
+.spotlight-box { background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 10px; }
+.spot-item { display: flex; align-items: center; margin-bottom: 3px; font-size: 0.7rem; }
+.spot-num { width: 14px; height: 14px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 5px; font-weight: bold; }
 
-.hero-info { 
-    background: linear-gradient(135deg, #2D3436 0%, #000000 100%); 
-    color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; 
-}
-
-.meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; }
-.spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 10px; border: 1px solid rgba(255,255,255,0.1); }
-.spot-item { display: flex; align-items: center; margin-bottom: 4px; font-size: 0.7rem; color: rgba(255,255,255,0.95); }
-.spot-num { width: 14px; height: 14px; background: #DAA520; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; margin-right: 6px; font-weight: 800; }
-
-.gear-card { background: white; border-radius: 20px; padding: 15px; margin-bottom: 15px; display: flex; align-items: center; }
-.gear-weather { padding-right: 15px; border-right: 1px solid #eee; text-align: center; min-width: 65px; }
-.gear-outfit { padding-left: 15px; }
-.outfit-tag { font-size: 0.7rem; color: #DAA520; font-weight: 800; text-transform: uppercase; margin-bottom: 2px; }
+.gear-card { background: white; border-radius: 15px; padding: 12px; margin-bottom: 15px; display: flex; align-items: center; }
+.gear-weather { padding-right: 12px; border-right: 1px solid #eee; text-align: center; min-width: 60px; }
+.gear-outfit { padding-left: 12px; font-size: 0.75rem; }
+.outfit-tag { font-size: 0.65rem; color: #DAA520; font-weight: bold; }
 
 .nav-trigger {
-    background: #2D3436; color: white; border-radius: 12px; padding: 12px 20px;
-    text-decoration: none; font-size: 0.85rem; display: inline-block; font-weight: 600; transition: 0.3s;
+    background: #2D3436; color: white; border-radius: 10px; padding: 10px 15px;
+    text-decoration: none; font-size: 0.8rem; display: block; text-align: center; font-weight: bold;
 }
-.nav-trigger:active { transform: scale(0.95); opacity: 0.8; }
 
 .bottom-nav {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    height: calc(85px + env(safe-area-inset-bottom));
-    background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
-    display: flex; justify-content: space-around; align-items: center;
-    padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid rgba(0,0,0,0.05); z-index: 10000;
+    position: fixed; bottom: 0; left: 0; right: 0; height: 85px;
+    background: rgba(255, 255, 255, 0.95); display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid #eee; z-index: 1000;
 }
-.bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; transition: 0.3s; }
-.bottom-nav a.active { color: #DAA520; transform: translateY(-3px); }
+.bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
+.bottom-nav a.active { color: #DAA520; }
 
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.animate-fadeInUp { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
-
-.history-section { border-left: 4px solid #DAA520; padding-left: 15px; margin: 20px 0; }
-.humor-card { background: rgba(218, 165, 32, 0.1); border-radius: 15px; padding: 15px; border: 1px dashed #DAA520; }
-
-@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-.blinking { animation: blink 1.5s infinite; color: #00FF00; }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; }
+.x-small { font-size: 0.7rem; }
+.blinking { animation: blink 2s infinite; color: #00FF00; }
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }

@@ -5,28 +5,24 @@
     --glass: rgba(255, 255, 255, 0.85);
 }
 
+html, body {
+    /* 確保高度計算包含所有元素 */
+    height: auto !important;
+    min-height: 100%;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: #F9F7F2;
     color: var(--text-deep);
-    /* 核心修正：增加底部內距，確保內容不會被導航列擋住 */
-    padding-bottom: 120px !important; 
+    /* 增加超大底部內距：100px (選單高) + 60px (額外緩衝) */
+    padding-bottom: 160px !important; 
     margin: 0;
     -webkit-tap-highlight-color: transparent;
+    overflow-y: auto;
 }
 
-.glass-card {
-    background: var(--glass);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 18px;
-    margin-bottom: 15px;
-    border: 1px solid rgba(218, 165, 32, 0.2);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-}
-
-/* 底部導覽列固定在最上方 */
+/* 底部導覽列固定修正 */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -38,13 +34,24 @@ body {
     justify-content: space-around;
     align-items: center;
     padding-bottom: env(safe-area-inset-bottom);
-    border-top: 1px solid #eee;
+    border-top: 1px solid rgba(0,0,0,0.05);
     z-index: 9999;
 }
 
 .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: bold; }
 .bottom-nav a.active { color: #DAA520; }
 .bottom-nav a i { font-size: 1.4rem; margin-bottom: 4px; }
+
+/* 玻璃卡片樣式修正 */
+.glass-card {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 18px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(218, 165, 32, 0.2);
+}
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; }

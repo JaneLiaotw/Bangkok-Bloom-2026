@@ -8,103 +8,145 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 150px !important; margin: 0; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--dark); margin: 0; padding-bottom: calc(120px + env(safe-area-inset-bottom)); }
         
         .glass-card { 
-            background: rgba(255, 255, 255, 0.85); 
+            background: rgba(255, 255, 255, 0.95); 
             backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.15);
+            border-radius: 20px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
-        /* 匯率輸入框樣式 */
-        .currency-input { font-weight: 700; color: var(--gold) !important; font-size: 1.1rem !important; }
-
+        /* 匯率欄位樣式 */
+        .currency-label { font-size: 0.7rem; font-weight: 800; color: #999; text-transform: uppercase; margin-bottom: 4px; }
+        .currency-input { font-weight: 800; color: var(--gold) !important; font-size: 1.25rem !important; border-radius: 12px !important; }
+        
         .lounge-card { background: linear-gradient(135deg, #2D3436 0%, #000000 100%); color: white; border: none; }
-        .lounge-hotel-name { font-size: 0.7rem; letter-spacing: 1px; color: var(--gold); font-weight: 800; margin-bottom: 5px; }
-        .time-slot { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 2px 8px; font-weight: 600; font-size: 0.8rem; margin-right: 5px; }
+        .lounge-hotel-name { font-size: 0.75rem; color: var(--gold); font-weight: 800; margin-bottom: 8px; letter-spacing: 1px; }
+        .time-slot { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 2px 8px; font-weight: 600; font-size: 0.85rem; margin-right: 8px; }
 
         .bottom-nav { 
             position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); 
-            background: rgba(255, 255, 255, 0.98); display: flex; justify-content: space-around; 
-            align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; 
+            background: white; display: flex; justify-content: space-around; 
+            align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 10000; 
         }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
         .bottom-nav i { font-size: 1.4rem; margin-bottom: 4px; }
 
-        .scroll-spacer { height: 60px; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="p-3">
     <header class="mb-4 mt-3 animate-fadeInUp">
         <h2 class="fw-bold">Sawasdee! 🙏</h2>
-        <p class="text-muted small">曼谷 2026</p>
+        <p class="text-muted small" id="liveRateStatus text-warning">正在連接即時匯率服務...</p>
     </header>
 
-    <div class="glass-card animate-fadeInUp" style="animation-delay: 0.1s;">
+    <div class="glass-card animate-fadeInUp shadow-sm">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold small"><i class="fas fa-coins text-warning me-2"></i>即時匯率換算 (1:1.08)</span>
-            <span class="badge rounded-pill bg-light text-dark">TWD ➜ THB</span>
+            <span class="fw-bold"><i class="fas fa-money-bill-transfer text-success me-2"></i>專業匯率換算</span>
+            <span class="badge bg-light text-dark" id="updateTime">2026-01-19</span>
         </div>
-        <div class="row g-2 align-items-center">
-            <div class="col-5">
-                <label class="x-small text-muted mb-1 d-block" style="font-size:0.6rem;">台幣 TWD</label>
-                <input type="number" id="twdInput" class="form-control border-0 bg-light py-2 currency-input" placeholder="0" 
-                       oninput="document.getElementById('thbInput').value = (this.value !== '') ? (this.value * 1.08).toFixed(0) : ''">
+        
+        <div class="row g-2">
+            <div class="col-4">
+                <div class="currency-label">台幣 TWD</div>
+                <input type="number" id="twd" class="form-control border-0 bg-light py-2 currency-input" placeholder="0">
             </div>
-            <div class="col-2 text-center text-muted mt-3"><i class="fas fa-arrows-left-right"></i></div>
-            <div class="col-5">
-                <label class="x-small text-muted mb-1 d-block" style="font-size:0.6rem;">泰銖 THB</label>
-                <input type="number" id="thbInput" class="form-control border-0 bg-light py-2 currency-input" placeholder="0" 
-                       oninput="document.getElementById('twdInput').value = (this.value !== '') ? (this.value / 1.08).toFixed(1) : ''">
+            <div class="col-4">
+                <div class="currency-label">泰銖 THB</div>
+                <input type="number" id="thb" class="form-control border-0 bg-light py-2 currency-input" placeholder="0">
             </div>
+            <div class="col-4">
+                <div class="currency-label">美金 USD</div>
+                <input type="number" id="usd" class="form-control border-0 bg-light py-2 currency-input" placeholder="0">
+            </div>
+        </div>
+        <div class="mt-2 x-small text-muted" style="font-size: 0.6rem; text-align: center;">
+            * 即時連動換算，100 THB ≈ <span id="refRate">101</span> TWD
         </div>
     </div>
 
-    <div class="animate-fadeInUp" style="animation-delay: 0.2s;">
-        <a href="thai.html" style="text-decoration: none; color: inherit;">
-            <div class="glass-card d-flex align-items-center justify-content-between" style="border-left: 5px solid var(--gold);">
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-language text-primary h4 mb-0 me-3"></i>
-                    <div>
-                        <div class="fw-bold">常用泰語 100 句</div>
-                        <div class="text-muted" style="font-size: 0.7rem;">內建快慢速發音與分類</div>
-                    </div>
+    <a href="thai.html" class="text-decoration-none text-dark">
+        <div class="glass-card d-flex align-items-center justify-content-between animate-fadeInUp">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-language text-primary h3 mb-0 me-3"></i>
+                <div>
+                    <div class="fw-bold">常用泰語 100 句</div>
+                    <div class="text-muted small">內建快慢速發音與字卡</div>
                 </div>
-                <i class="fas fa-chevron-right text-muted"></i>
             </div>
-        </a>
-    </div>
+            <i class="fas fa-chevron-right text-muted"></i>
+        </div>
+    </a>
 
-    <div class="glass-card lounge-card animate-fadeInUp" style="animation-delay: 0.3s;">
-        <h6 class="fw-bold small opacity-75 mb-3 text-warning"><i class="fas fa-champagne-glasses me-2"></i>CLUB LOUNGE SCHEDULE</h6>
-        <div class="mb-4">
+    <div class="glass-card lounge-card animate-fadeInUp">
+        <h6 class="fw-bold small opacity-75 mb-4 text-warning"><i class="fas fa-champagne-glasses me-2"></i>CLUB LOUNGE SCHEDULE</h6>
+        <div class="mb-4 border-bottom border-secondary pb-3" style="border-style: dashed !important;">
             <div class="lounge-hotel-name">INTERCONTINENTAL (37F)</div>
-            <div class="small opacity-90">
-                <p class="mb-1"><span class="time-slot">06:30-11:00</span> Breakfast</p>
-                <p class="mb-1"><span class="time-slot">14:30-16:30</span> Afternoon Tea</p>
-                <p class="mb-0"><span class="time-slot">17:30-19:30</span> Evening Cocktails</p>
+            <div class="small">
+                <div class="mb-1"><span class="time-slot">06:30-11:00</span> Breakfast</div>
+                <div class="mb-1"><span class="time-slot">14:30-16:30</span> Afternoon Tea</div>
+                <div class="mb-0"><span class="time-slot">17:30-19:30</span> Evening Cocktails</div>
             </div>
         </div>
-        <hr style="border-color: rgba(255,255,255,0.15);">
         <div>
             <div class="lounge-hotel-name">GRAND HYATT (LL)</div>
-            <div class="small opacity-90">
-                <p class="mb-1"><span class="time-slot">06:30-10:30</span> Breakfast</p>
-                <p class="mb-1"><span class="time-slot">14:00-16:00</span> Afternoon Tea</p>
-                <p class="mb-0"><span class="time-slot">17:30-19:30</span> Evening Cocktails</p>
+            <div class="small">
+                <div class="mb-1"><span class="time-slot">06:30-10:30</span> Breakfast</div>
+                <div class="mb-1"><span class="time-slot">14:00-16:00</span> Afternoon Tea</div>
+                <div class="mb-0"><span class="time-slot">17:30-19:30</span> Evening Cocktails</div>
             </div>
         </div>
     </div>
 
-    <div class="scroll-spacer"></div>
+    <div style="height: 50px;"></div>
 
     <nav class="bottom-nav">
         <a href="index.html" class="active"><i class="fas fa-house-chimney"></i><span>總覽</span></a>
         <a href="culture.html"><i class="fas fa-compass"></i><span>行程</span></a>
         <a href="guide.html"><i class="fas fa-feather-pointed"></i><span>指南</span></a>
     </nav>
+
+    <script>
+        // 初始匯率設定 (TWD 為基準)
+        let rates = { THB: 0.99, USD: 0.031, TWD: 1 }; 
+
+        async function fetchRates() {
+            try {
+                const res = await fetch('https://open.er-api.com/v6/latest/TWD');
+                const data = await res.json();
+                rates = data.rates;
+                document.getElementById('liveRateStatus').innerText = `即時匯率已更新 (2026)`;
+                document.getElementById('refRate').innerText = (100 / rates.THB).toFixed(1);
+            } catch (e) {
+                document.getElementById('liveRateStatus').innerText = `使用快取匯率數據`;
+            }
+        }
+
+        const twdEl = document.getElementById('twd');
+        const thbEl = document.getElementById('thb');
+        const usdEl = document.getElementById('usd');
+
+        // 通用換算函數
+        function convert(val, from) {
+            if (val === "") {
+                twdEl.value = thbEl.value = usdEl.value = "";
+                return;
+            }
+            const baseTWD = val / rates[from];
+            if (from !== 'TWD') twdEl.value = baseTWD.toFixed(0);
+            if (from !== 'THB') thbEl.value = (baseTWD * rates.THB).toFixed(0);
+            if (from !== 'USD') usdEl.value = (baseTWD * rates.USD).toFixed(2);
+        }
+
+        twdEl.addEventListener('input', (e) => convert(e.target.value, 'TWD'));
+        thbEl.addEventListener('input', (e) => convert(e.target.value, 'THB'));
+        usdEl.addEventListener('input', (e) => convert(e.target.value, 'USD'));
+
+        fetchRates();
+    </script>
 </body>
 </html>

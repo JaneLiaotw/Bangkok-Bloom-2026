@@ -3,62 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Pro Guide</title>
+    <title>Bangkok Survival Guide | Master Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root { --gold: #DAA520; --dark: #1A1A1A; --bg: #F9F7F2; --accent: #E67E22; }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px !important; }
+        
+        /* 頁首樣式 */
+        .guide-header { background: var(--dark); color: white; padding: 30px 20px; border-radius: 0 0 30px 30px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        
+        /* 指南卡片 */
+        .guide-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .card-title { font-weight: 800; font-size: 1.1rem; color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; }
+        .card-title i { margin-right: 10px; font-size: 1.2rem; }
+
+        /* 交通圖標清單 */
+        .transport-badge { display: flex; align-items: center; margin-bottom: 12px; padding: 10px; border-radius: 12px; background: #f8f9fa; }
+        .badge-icon { width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: white; }
+        
+        /* 分類內容樣式 */
+        .guide-item { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; color: #555; }
+        .highlight { color: var(--accent); font-weight: 700; }
+        .pro-tip { background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px; font-size: 0.85rem; border-radius: 4px; margin-top: 10px; }
+
+        /* 底部導覽 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: white; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 10000; }
+        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
+        .bottom-nav a.active { color: var(--gold); }
+    </style>
 </head>
-<body class="p-3">
-    <header class="mb-4 mt-3">
-        <h2 class="fw-bold">實戰指南 🗺️</h2>
-        <p class="text-soft small">曼谷大眾運輸與溝通專家建議</p>
-    </header>
+<body>
 
-    <div class="glass-card animate-fadeInUp">
-        <h6 class="fw-bold mb-3"><i class="fas fa-credit-card text-nordic me-2"></i>大眾運輸支付對照表</h6>
-        <div class="table-responsive">
-            <table class="table table-sm x-small text-muted">
-                <thead><tr><th>系統</th><th>支付方式</th><th>建議</th></tr></thead>
-                <tbody>
-                    <tr><td><b>BTS (綠/金)</b></td><td>Rabbit Card / 現金票</td><td>買 Rabbit Card 避開排隊</td></tr>
-                    <tr><td><b>MRT (藍/黃)</b></td><td>感應信用卡 (Visa/MC)</td><td>直接感應最方便</td></tr>
-                    <tr><td><b>船 (河道)</b></td><td>現金 / QR Code</td><td>橘旗船統一 16 THB</td></tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="guide-header">
+        <h2 class="fw-bold mb-1">Bangkok Survival Guide</h2>
+        <p class="opacity-75 mb-0 small"><i class="fas fa-calendar-check me-1"></i> 2026 曼谷實戰生存手冊</p>
     </div>
 
-    <div class="glass-card animate-fadeInUp" style="border-left: 5px solid #003580;">
-        <h6 class="fw-bold mb-2"><i class="fas fa-eye text-primary me-2"></i>重要轉乘圖解提示</h6>
-        <div class="row g-2">
-            <div class="col-6">
-                <div class="p-2 bg-light rounded shadow-sm">
-                    <div class="fw-bold x-small mb-1">大皇宮轉乘</div>
-                    <p class="x-small mb-0">BTS Saphan Taksin 站 <b>2號出口</b> 走到底即是中央碼頭。</p>
-                </div>
+    <div class="container">
+        <div class="guide-card">
+            <div class="card-title"><i class="fas fa-train"></i> 城市移動攻略</div>
+            <div class="transport-badge">
+                <div class="badge-icon" style="background: #00843D;">BTS</div>
+                <div><span class="fw-bold">空鐵</span>：買 <span class="highlight">Rabbit Card</span>，涵蓋主要商圈。</div>
             </div>
-            <div class="col-6">
-                <div class="p-2 bg-light rounded shadow-sm">
-                    <div class="fw-bold x-small mb-1">安多哥市場</div>
-                    <p class="x-small mb-0">MRT Kamphaeng Phet <b>3號出口</b>，手扶梯上來就是市場。</p>
-                </div>
+            <div class="transport-badge">
+                <div class="badge-icon" style="background: #003399;">MRT</div>
+                <div><span class="fw-bold">地鐵</span>：可用 <span class="highlight">Visa/Mastercard</span> 感應過閘機。</div>
+            </div>
+            <div class="transport-badge">
+                <div class="badge-icon" style="background: #2ECC71;">APP</div>
+                <div><span class="fw-bold">Grab / Bolt</span>：必裝！Bolt 通常較便宜但車較少。</div>
+            </div>
+            <div class="pro-tip">
+                <strong>高手叮嚀：</strong> 曼谷 17:00-20:00 是交通地獄，盡量搭捷運或運河快船 (Khlong Saen Saep)，避開陸路塞車。
             </div>
         </div>
-    </div>
 
-    <div class="glass-card animate-fadeInUp">
-        <h6 class="fw-bold mb-3"><i class="fas fa-comments text-nordic me-2"></i>實用生存泰語</h6>
-        <div class="p-2 mb-2 border-bottom">
-            <div class="small fw-bold">"不辣" (Mai Phet)</div>
-            <div class="x-small text-muted">點路邊攤/船麵必說。</div>
+        <div class="guide-card">
+            <div class="card-title"><i class="fas fa-wallet"></i> 換匯與支付</div>
+            <div class="guide-item">● 換匯首選：<span class="highlight">SuperRich (橘色或綠色)</span>。</div>
+            <div class="guide-item">● 準備百元美金或台幣千元大鈔，匯率最佳。</div>
+            <div class="guide-item">● 街頭美食：多數攤販支持 <span class="highlight">PromptPay (掃碼)</span>，觀光客可先備妥現金。</div>
+            <div class="guide-item">● 信用卡：大商場通用，但 7-11 刷卡通常有 200-300 銖門檻。</div>
         </div>
-        <div class="p-2 mb-2 border-bottom">
-            <div class="small fw-bold">"多少錢？" (Tao Rai?)</div>
-            <div class="x-small text-muted">問價錢時使用。</div>
+
+        <div class="guide-card">
+            <div class="card-title"><i class="fas fa-suitcase-rolling"></i> 退稅與實用資訊</div>
+            <div class="guide-item"><span class="fw-bold">退稅 (VAT Refund)：</span></div>
+            <div class="guide-item">1. 店內消費滿 2,000 銖需索取黃色 P.P.10 表格。</div>
+            <div class="guide-item">2. 機場海關蓋章需在 <span class="highlight">掛行李前</span> 辦理。</div>
+            <hr>
+            <div class="guide-item"><span class="fw-bold">插座與電壓：</span></div>
+            <div class="guide-item">● 電壓 220V。插座通常與台灣相容 (兩孔扁頭可直接用)，不需轉接頭但要注意電器是否支援國際電壓。</div>
         </div>
-        <div class="p-2">
-            <div class="small fw-bold">"洗手間在哪？" (Hong Nam Yoo Tee Nai?)</div>
-            <div class="x-small text-muted">這句最實用。</div>
+
+        <div class="guide-card">
+            <div class="card-title"><i class="fas fa-shield-halved"></i> 習俗禁忌與求助</div>
+            <div class="guide-item">● <span class="highlight">尊重皇室</span>：不可對國王畫像不敬，嚴禁議論皇室。</div>
+            <div class="guide-item">● <span class="highlight">寺廟穿著</span>：進入大皇宮等寺廟須穿長褲/長裙，嚴禁背心或短褲。</div>
+            <div class="guide-item">● <span class="highlight">禁止摸頭</span>：泰國人認為頭部神聖，請勿隨意觸摸他人頭部。</div>
+            <div class="pro-tip">
+                <strong>🚨 緊急求助熱線：</strong><br>
+                觀光警察 (聽懂英文)：<a href="tel:1155" class="text-decoration-none">1155</a><br>
+                救護車：<a href="tel:1669" class="text-decoration-none">1669</a>
+            </div>
         </div>
     </div>
 
@@ -67,5 +96,6 @@
         <a href="culture.html"><i class="fas fa-compass"></i><span>行程</span></a>
         <a href="guide.html" class="active"><i class="fas fa-feather-pointed"></i><span>指南</span></a>
     </nav>
+
 </body>
 </html>

@@ -3,34 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Thai Phrasebook | Fast & Slow</title>
+    <title>Thai 100 Phrases | Professional Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
     <style>
-        .category-header { background: #DAA520; color: white; padding: 12px 15px; border-radius: 12px; margin: 25px 0 10px; font-weight: bold; position: sticky; top: 10px; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .thai-card { border-radius: 18px; background: white; padding: 18px; margin-bottom: 12px; border: 1px solid #eee; display: flex; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
-        .thai-info { flex: 1; padding-right: 10px; }
-        .thai-text { font-size: 1.2rem; color: #DAA520; font-weight: bold; margin-bottom: 4px; }
-        .chinese-text { font-size: 1rem; color: #333; font-weight: 500; }
-        .audio-btns { display: flex; flex-direction: column; gap: 8px; }
-        .btn-speak { width: 44px; height: 44px; border-radius: 12px; border: 1.5px solid #DAA520; background: white; color: #DAA520; display: flex; align-items: center; justify-content: center; }
-        .btn-speak.slow { border-color: #5DADE2; color: #5DADE2; }
-        .bottom-spacer { height: 100px; } /* 額外強制空白區 */
+        :root { --gold: #DAA520; --blue: #2E86C1; --bg: #F9F7F2; --dark: #2D3436; }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 150px !important; }
+        
+        /* 分類標題樣式 */
+        .category-header { 
+            background: linear-gradient(90deg, var(--gold), #B8860B); 
+            color: white; padding: 14px 20px; border-radius: 15px; 
+            margin: 30px 0 15px; font-weight: 800; position: sticky; 
+            top: 10px; z-index: 100; box-shadow: 0 4px 15px rgba(218, 165, 32, 0.2); 
+        }
+
+        /* 拼音字卡 */
+        .thai-card { 
+            border-radius: 20px; background: white; padding: 20px; 
+            margin-bottom: 12px; border: 1px solid rgba(0,0,0,0.05); 
+            display: flex; align-items: center; transition: 0.3s;
+        }
+        .thai-card:active { transform: scale(0.98); background: #fffdf9; }
+        
+        .thai-info { flex: 1; }
+        .zh-text { font-size: 1rem; font-weight: 800; color: #333; margin-bottom: 3px; }
+        .py-text { font-size: 0.8rem; color: var(--blue); font-family: 'Courier New', monospace; font-weight: 700; letter-spacing: 0.3px; }
+        .th-text { font-size: 1.35rem; color: var(--gold); font-weight: 800; margin-top: 5px; line-height: 1.2; }
+        
+        /* 播放按鈕 */
+        .audio-btns { display: flex; flex-direction: column; gap: 8px; margin-left: 15px; }
+        .btn-speak { 
+            width: 50px; height: 50px; border-radius: 16px; 
+            border: 1.5px solid #eee; background: white; color: var(--gold); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        }
+        .btn-speak i { font-size: 1rem; }
+        .btn-speak span { font-size: 0.6rem; font-weight: 800; margin-top: 2px; }
+        .btn-speak:active { background: var(--gold); color: white; border-color: var(--gold); }
+
+        /* 導覽列 */
+        .bottom-nav { 
+            position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); 
+            background: white; display: flex; justify-content: space-around; 
+            align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; 
+        }
+        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; font-weight: 700; }
+        .bottom-nav a.active { color: var(--gold); }
+        .bottom-nav i { font-size: 1.5rem; margin-bottom: 4px; }
+
+        .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="p-3">
-    <header class="mb-3 mt-3 d-flex align-items-center">
-        <a href="index.html" class="me-3 text-dark"><i class="fas fa-arrow-left h4"></i></a>
+    <header class="mb-2 mt-3 d-flex align-items-center animate-fadeInUp">
+        <a href="index.html" class="me-3 text-dark"><i class="fas fa-chevron-left h4"></i></a>
         <div>
-            <h2 class="fw-bold mb-0">泰語 100 句 🙏</h2>
-            <p class="text-soft small mb-0"><i class="fas fa-bolt text-warning"></i> 正常 / <i class="fas fa-walking text-info"></i> 慢速發音</p>
+            <h2 class="fw-bold mb-0">泰語實戰 100 句</h2>
+            <p class="text-muted small mb-0">中 / 拼 / 泰 全面對照手冊</p>
         </div>
     </header>
 
     <div id="thaiContent"></div>
-    
-    <div class="bottom-spacer"></div>
+    <div style="height: 60px;"></div>
 
     <nav class="bottom-nav">
         <a href="index.html"><i class="fas fa-house-chimney"></i><span>總覽</span></a>
@@ -40,73 +76,118 @@
 
     <script>
         const phraseData = {
-            "社交與禮貌": [
-                { th: "Sawasdee khrap", zh: "你好 (男用)" },
-                { th: "Sawasdee kha", zh: "你好 (女用)" },
-                { th: "Khop khun khrap", zh: "謝謝 (男用)" },
-                { th: "Khop khun kha", zh: "謝謝 (女用)" },
-                { th: "Mai pen rai", zh: "沒關係 / 不客氣" },
-                { th: "Khor thoad khrap", zh: "對不起 / 借過" },
-                { th: "Sabai dee mai?", zh: "你好嗎？" },
-                { th: "Chai", zh: "是的" },
-                { th: "Mai chai", zh: "不是" }
+            "社交與必備禮儀": [
+                { zh: "你好 (男用)", py: "Sa-wat-dee-krap", th: "สวัสดีครับ" },
+                { zh: "你好 (女用)", py: "Sa-wat-dee-kha", th: "สวัสดีค่ะ" },
+                { zh: "謝謝 (男/女)", py: "Khop-khun-krap/ka", th: "ขอบคุณ" },
+                { zh: "沒關係 / 不客氣", py: "Mai-pen-rai", th: "ไม่เป็นไร" },
+                { zh: "對不起", py: "Kor-tot-krap/ka", th: "ขอโทษ" },
+                { zh: "再見", py: "La-gon", th: "ลาก่อน" },
+                { zh: "聽不懂", py: "Mai-kao-jai", th: "ไม่เข้าใจ" },
+                { zh: "你會說英文嗎？", py: "Pood-pasa-ang-grit-dai-mai?", th: "พูดภาษาอังกฤษได้ไหม" },
+                { zh: "等一下", py: "Ror-sak-kru", th: "รอสักครู่" },
+                { zh: "很高興認識你", py: "Yin-dee-tee-dai-ru-juk", th: "ยินดีที่ได้รู้จัก" }
             ],
-            "在餐廳 (點餐必備)": [
-                { th: "Mai phet", zh: "不要辣 (最強神句)" },
-                { th: "Phet nit noi", zh: "一點點辣" },
-                { th: "Mai sai phong chu rot", zh: "不要味精" },
-                { th: "Check bin kha", zh: "結帳 / 買單" },
-                { th: "Aroy mak", zh: "很好吃" },
-                { th: "Nam plao", zh: "白開水" },
-                { th: "Nam-khang", zh: "冰塊" }
+            "按摩專用 (實戰推薦)": [
+                { zh: "按摩 (動詞)", py: "Nuat", th: "นวด" },
+                { zh: "重一點", py: "Nuk-nuk-noi", th: "หนักๆหน่อย" },
+                { zh: "輕一點", py: "Bao-bao-noi", th: "เบาๆหน่อย" },
+                { zh: "這裡很痛", py: "Jeb-trong-nee", th: "เจ็บตรงนี้" },
+                { zh: "舒服", py: "Sa-bai", th: "สบาย" },
+                { zh: "非常舒服", py: "Sa-bai-mak", th: "สบายมาก" },
+                { zh: "這裡再多按一下", py: "Net-trong-nee-yer-noi", th: "เน้นตรงนี้เยอะหน่อย" },
+                { zh: "癢", py: "Kun", th: "คัน" },
+                { zh: "冷 / 涼快", py: "Nao / Yen", th: "หนาว / เย็น" },
+                { zh: "熱", py: "Ron", th: "ร้อน" }
             ],
-            "購物與交通": [
-                { th: "Tao rai?", zh: "多少錢？" },
-                { th: "Paeng mak", zh: "太貴了！" },
-                { th: "Lot noi dai mai?", zh: "便宜一點可以嗎？" },
-                { th: "Yark pai tee nee", zh: "我想去這個地方 (指地圖)" },
-                { th: "Liao sai", zh: "左轉" },
-                { th: "Liao khwa", zh: "右轉" },
-                { th: "Yood tee nee", zh: "請停在這裡" }
+            "餐廳與點餐": [
+                { zh: "不要辣", py: "Mai-phet", th: "ไม่เผ็ด" },
+                { zh: "一點點辣", py: "Phet-nit-noi", th: "เผ็ดนิดหน่อย" },
+                { zh: "要大辣", py: "Phet-mak", th: "เผ็ดมาก" },
+                { zh: "不要加味精", py: "Mai-sai-phong-chu-rot", th: "ไม่ใส่ผงชูรส" },
+                { zh: "不要加香菜", py: "Mai-sai-pak-chee", th: "ไม่ใส่ผักชี" },
+                { zh: "有推薦的嗎？", py: "Mee-ana-num-mai?", th: "มีแนะนำไหม" },
+                { zh: "買單 / 結帳", py: "Check-bin", th: "เช็คบิล" },
+                { zh: "白飯", py: "Kao-suay", th: "ข้าวสวย" },
+                { zh: "冰塊", py: "Nam-kang", th: "น้ำแข็ง" },
+                { zh: "飲用水", py: "Nam-plao", th: "น้ำเปล่า" },
+                { zh: "洗手間在哪？", py: "Hong-nam-yu-tee-nai?", th: "ห้องน้ำอยู่ที่ไหน" }
             ],
-            "飯店與按摩": [
-                { th: "Hong nam yoo tee nai?", zh: "廁所在哪裡？" },
-                { th: "Nuad tao", zh: "腳底按摩" },
-                { th: "Nuad thai", zh: "泰式按摩" },
-                { th: "Jeb mak", zh: "很痛！" },
-                { th: "Bao bao noi", zh: "輕一點" },
-                { th: "Rang rang noi", zh: "重一點" }
+            "購物與殺價": [
+                { zh: "多少錢？", py: "Tao-rai?", th: "เท่าไหร่" },
+                { zh: "太貴了", py: "Paeng-pai", th: "แพงไป" },
+                { zh: "便宜一點好嗎？", py: "Lot-noi-dai-mai?", th: "ลดหน่อยได้ไหม" },
+                { zh: "最低多少？", py: "Sud-sud-tao-rai?", th: "สุดๆเท่าไหร่" },
+                { zh: "要這個", py: "Ao-un-nee", th: "เอาอันนี้" },
+                { zh: "不要這個", py: "Mai-ao-un-nee", th: "ไม่เอาอันนี้" },
+                { zh: "有別的顏色嗎？", py: "Mee-see-uen-mai?", th: "มีสีอื่นไหม" },
+                { zh: "可以試穿嗎？", py: "Long-dai-mai?", th: "ลองได้ไหม" },
+                { zh: "漂亮", py: "Suay", th: "สวย" },
+                { zh: "可愛", py: "Na-ruk", th: "น่ารัก" }
+            ],
+            "交通與方向": [
+                { zh: "去這裡", py: "Pai-tee-nee", th: "ไปที่นี่" },
+                { zh: "直走", py: "Trong-pai", th: "ตรงไป" },
+                { zh: "左轉", py: "Liao-sai", th: "เลี้ยวซ้าย" },
+                { zh: "右轉", py: "Liao-kwa", th: "เลี้ยวขวา" },
+                { zh: "停車", py: "Yut / Jod", th: "หยุด / จอด" },
+                { zh: "飯店", py: "Rong-raem", th: "โรงแรม" },
+                { zh: "機場", py: "Sa-nam-bin", th: "สนามบิน" },
+                { zh: "火車站", py: "Sa-ta-nee-rot-fai", th: "สถานีรถไฟ" },
+                { zh: "近", py: "Klai (低音)", th: "ใกล้" },
+                { zh: "遠", py: "Klai (平音)", th: "ไกล" }
+            ],
+            "常用數字": [
+                { zh: "1, 2, 3", py: "Nueng, Song, Sam", th: "๑, ๒, ๓" },
+                { zh: "4, 5, 6", py: "See, Ha, Hok", th: "๔, ๕, ๖" },
+                { zh: "7, 8, 9, 10", py: "Jet, Pad, Gao, Sip", th: "๗, ๘, ๙, ๑๐" },
+                { zh: "20, 30", py: "Yee-sip, Sam-sip", th: "๒๐, ๓๐" },
+                { zh: "100", py: "Nueng-roi", th: "๑๐๐" },
+                { zh: "1000", py: "Nueng-pan", th: "๑๐๐๐" }
+            ],
+            "生活與緊急": [
+                { zh: "救命！", py: "Chuay-duay!", th: "ช่วยด้วย" },
+                { zh: "迷路了", py: "Long-tang", th: "หลงทาง" },
+                { zh: "醫生", py: "Mor", th: "หมอ" },
+                { zh: "醫院", py: "Rong-pa-ya-ban", th: "โรงพยาบาล" },
+                { zh: "藥店", py: "Ran-kai-ya", th: "ร้านขายยา" },
+                { zh: "警察", py: "Tam-ruat", th: "ตำรวจ" },
+                { zh: "手機丟了", py: " มือถือหาย (Meu-teu-hai)", th: "มือถือหาย" },
+                { zh: "祝你旅途愉快", py: "Tiao-hai-sanuk-na", th: "เที่ยวให้สนุกนะ" }
             ]
         };
 
         const container = document.getElementById('thaiContent');
 
-        for (const [cat, list] of Object.entries(phraseData)) {
+        Object.entries(phraseData).forEach(([cat, list], index) => {
             const header = document.createElement('div');
-            header.className = 'category-header';
+            header.className = 'category-header animate-fadeInUp';
+            header.style.animationDelay = (index * 0.1) + 's';
             header.innerText = cat;
             container.appendChild(header);
 
-            list.forEach(item => {
+            list.forEach((item, i) => {
                 const card = document.createElement('div');
                 card.className = 'thai-card animate-fadeInUp';
+                card.style.animationDelay = ((index * 0.1) + (i * 0.05)) + 's';
                 card.innerHTML = `
                     <div class="thai-info">
-                        <div class="chinese-text">${item.zh}</div>
-                        <div class="thai-text">${item.th}</div>
+                        <div class="zh-text">${item.zh}</div>
+                        <div class="py-text">${item.py}</div>
+                        <div class="th-text">${item.th}</div>
                     </div>
                     <div class="audio-btns">
-                        <button class="btn-speak" onclick="speak('${item.th}', 1.0)" title="正常語速">
-                            <i class="fas fa-bolt"></i>
+                        <button class="btn-speak" onclick="speak('${item.th}', 0.9)">
+                            <i class="fas fa-play"></i><span>FAST</span>
                         </button>
-                        <button class="btn-speak slow" onclick="speak('${item.th}', 0.5)" title="慢速發音">
-                            <i class="fas fa-walking"></i>
+                        <button class="btn-speak" onclick="speak('${item.th}', 0.5)">
+                            <i class="fas fa-ellipsis-h"></i><span>SLOW</span>
                         </button>
                     </div>
                 `;
                 container.appendChild(card);
             });
-        }
+        });
 
         function speak(text, rate) {
             window.speechSynthesis.cancel();
@@ -114,6 +195,7 @@
             msg.text = text;
             msg.lang = 'th-TH';
             msg.rate = rate;
+            msg.pitch = 1.0;
             window.speechSynthesis.speak(msg);
         }
     </script>

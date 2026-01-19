@@ -8,58 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
-        body { 
-            font-family: -apple-system, sans-serif; 
-            background: var(--bg); 
-            color: var(--dark); 
-            /* 這裡是核心修正：加大底部內距 */
-            padding-bottom: 120px !important; 
-            margin: 0;
-            overflow-x: hidden;
-        }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 150px !important; margin: 0; }
         
-        /* 玻璃卡片 */
         .glass-card { 
             background: rgba(255, 255, 255, 0.85); 
-            backdrop-filter: blur(10px); 
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 20px; 
-            padding: 18px; 
-            margin-bottom: 15px; 
-            border: 1px solid rgba(218, 165, 32, 0.15);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 18px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.15);
         }
 
-        /* 酒廊專屬樣式 */
-        .lounge-card {
-            background: linear-gradient(135deg, #2D3436 0%, #000000 100%);
-            color: white;
-            border: none;
-        }
+        /* 匯率輸入框樣式 */
+        .currency-input { font-weight: 700; color: var(--gold) !important; font-size: 1.1rem !important; }
+
+        .lounge-card { background: linear-gradient(135deg, #2D3436 0%, #000000 100%); color: white; border: none; }
         .lounge-hotel-name { font-size: 0.7rem; letter-spacing: 1px; color: var(--gold); font-weight: 800; margin-bottom: 5px; }
         .time-slot { background: rgba(255,255,255,0.15); border-radius: 6px; padding: 2px 8px; font-weight: 600; font-size: 0.8rem; margin-right: 5px; }
 
-        /* 底部導覽列 - 增加安全區域支援 */
         .bottom-nav { 
-            position: fixed; 
-            bottom: 0; 
-            left: 0; 
-            right: 0; 
-            height: calc(85px + env(safe-area-inset-bottom)); 
-            background: rgba(255, 255, 255, 0.98); 
-            display: flex; 
-            justify-content: space-around; 
-            align-items: center; 
-            padding-bottom: env(safe-area-inset-bottom);
-            border-top: 1px solid #eee; 
-            z-index: 9999; 
+            position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); 
+            background: rgba(255, 255, 255, 0.98); display: flex; justify-content: space-around; 
+            align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; 
         }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
         .bottom-nav i { font-size: 1.4rem; margin-bottom: 4px; }
 
-        /* 滑動到底部的隱形墊高器 */
-        .scroll-spacer { height: 60px; width: 100%; }
-
+        .scroll-spacer { height: 60px; }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; }
     </style>
@@ -72,16 +45,20 @@
 
     <div class="glass-card animate-fadeInUp" style="animation-delay: 0.1s;">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <span class="fw-bold small"><i class="fas fa-coins text-warning me-2"></i>即時匯率換算</span>
-            <span class="badge rounded-pill bg-light text-dark">1 TWD ≈ 1.08 THB</span>
+            <span class="fw-bold small"><i class="fas fa-coins text-warning me-2"></i>即時匯率換算 (1:1.08)</span>
+            <span class="badge rounded-pill bg-light text-dark">TWD ➜ THB</span>
         </div>
         <div class="row g-2 align-items-center">
             <div class="col-5">
-                <input type="number" class="form-control border-0 bg-light py-2" placeholder="台幣" oninput="document.getElementById('thb').value=(this.value*1.08).toFixed(0)">
+                <label class="x-small text-muted mb-1 d-block" style="font-size:0.6rem;">台幣 TWD</label>
+                <input type="number" id="twdInput" class="form-control border-0 bg-light py-2 currency-input" placeholder="0" 
+                       oninput="document.getElementById('thbInput').value = (this.value !== '') ? (this.value * 1.08).toFixed(0) : ''">
             </div>
-            <div class="col-2 text-center text-muted"><i class="fas fa-arrows-left-right"></i></div>
+            <div class="col-2 text-center text-muted mt-3"><i class="fas fa-arrows-left-right"></i></div>
             <div class="col-5">
-                <input type="number" id="thb" class="form-control border-0 bg-light py-2" placeholder="泰銖" oninput="document.querySelector('.col-5 input').value=(this.value/1.08).toFixed(1)">
+                <label class="x-small text-muted mb-1 d-block" style="font-size:0.6rem;">泰銖 THB</label>
+                <input type="number" id="thbInput" class="form-control border-0 bg-light py-2 currency-input" placeholder="0" 
+                       oninput="document.getElementById('twdInput').value = (this.value !== '') ? (this.value / 1.08).toFixed(1) : ''">
             </div>
         </div>
     </div>
@@ -93,7 +70,7 @@
                     <i class="fas fa-language text-primary h4 mb-0 me-3"></i>
                     <div>
                         <div class="fw-bold">常用泰語 100 句</div>
-                        <div class="text-muted x-small" style="font-size: 0.7rem;">內建快慢速發音功能</div>
+                        <div class="text-muted" style="font-size: 0.7rem;">內建快慢速發音與分類</div>
                     </div>
                 </div>
                 <i class="fas fa-chevron-right text-muted"></i>
@@ -103,7 +80,6 @@
 
     <div class="glass-card lounge-card animate-fadeInUp" style="animation-delay: 0.3s;">
         <h6 class="fw-bold small opacity-75 mb-3 text-warning"><i class="fas fa-champagne-glasses me-2"></i>CLUB LOUNGE SCHEDULE</h6>
-        
         <div class="mb-4">
             <div class="lounge-hotel-name">INTERCONTINENTAL (37F)</div>
             <div class="small opacity-90">
@@ -112,9 +88,7 @@
                 <p class="mb-0"><span class="time-slot">17:30-19:30</span> Evening Cocktails</p>
             </div>
         </div>
-
         <hr style="border-color: rgba(255,255,255,0.15);">
-
         <div>
             <div class="lounge-hotel-name">GRAND HYATT (LL)</div>
             <div class="small opacity-90">

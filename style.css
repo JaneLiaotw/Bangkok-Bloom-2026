@@ -52,6 +52,19 @@ body {
     margin-bottom: 15px;
     border: 1px solid rgba(218, 165, 32, 0.2);
 }
-
+.premium-card {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+.status-item {
+    transition: all 0.3s ease;
+}
+.status-item:active {
+    transform: scale(0.95);
+    background: #eef2ff;
+}
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 .animate-fadeInUp { animation: fadeInUp 0.4s ease-out forwards; opacity: 0; }

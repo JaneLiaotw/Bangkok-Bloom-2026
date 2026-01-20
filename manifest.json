@@ -1,0 +1,16 @@
+{
+  "short_name": "BKK Master",
+  "name": "Bangkok Bloom 2026 Survival Guide",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5111/5111559.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#F9F7F2",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#DAA520"
+}

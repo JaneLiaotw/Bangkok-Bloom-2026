@@ -3,154 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>BKK Trip | Bangkok Bloom</title>
+    <title>Bangkok Saga | Club Lounge Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #1A1A1A; --bg: #F9F7F2; --blue: #4285F4; --stay: #E67E22; }
-        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); padding-bottom: 120px !important; margin: 0; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; --lounge: #9B59B6; }
+        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 160px !important; margin: 0; overflow-x: hidden; }
         
-        /* 頂部導航與標籤 */
-        .header-sticky {
-            background: white; position: sticky; top: 0; z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-        .nav-tabs { border: none; padding: 10px 5px; flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        .nav-link { 
-            border: none !important; color: #999; font-weight: 700; font-size: 0.85rem; 
-            padding: 8px 16px; border-radius: 12px; margin: 0 4px; white-space: nowrap;
-        }
-        .nav-link.active { background: var(--gold) !important; color: white !important; box-shadow: 0 4px 10px rgba(218, 165, 32, 0.3); }
+        /* 頂部日期切換器 */
+        .day-scroller { display: flex; overflow-x: auto; padding: 15px; gap: 12px; scrollbar-width: none; position: sticky; top: 0; z-index: 1000; background: var(--bg); }
+        .day-scroller::-webkit-scrollbar { display: none; }
+        .day-btn { min-width: 50px; height: 50px; border-radius: 15px; background: white; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); scroll-snap-align: center; }
+        .day-btn.active { background: var(--gold); color: white; transform: scale(1.1); box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3); }
 
-        /* 行程內容 */
-        .tab-content { padding: 20px; }
-        .timeline-card {
-            background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px;
-            border: 1px solid rgba(0,0,0,0.04); box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-        }
-        .hotel-tag { background: var(--stay); color: white; padding: 2px 10px; border-radius: 6px; font-size: 0.7rem; font-weight: 700; }
-        .time-badge { color: var(--gold); font-weight: 800; font-size: 0.9rem; margin-right: 8px; }
+        /* 主卡片資訊 */
+        .hero-info { background: linear-gradient(135deg, #2D3436 0%, #000000 100%); color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; margin-top: 5px; }
         
-        /* 導航按鈕 */
-        .nav-btn {
-            background: var(--blue); color: white; border: none; padding: 10px 20px;
-            border-radius: 12px; font-weight: 700; font-size: 0.8rem;
-            text-decoration: none; display: inline-flex; align-items: center; margin-top: 10px;
-        }
-        .nav-btn i { margin-right: 6px; }
+        /* 景點清單按鈕 */
+        .spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); }
+        .spot-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 6px 10px; margin-bottom: 6px; display: flex; align-items: center; text-decoration: none; color: white; transition: 0.2s; width: 100%; }
+        .spot-btn:active { background: var(--gold); transform: scale(0.95); }
+        .spot-num { width: 16px; height: 16px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-right: 8px; font-weight: 800; flex-shrink: 0; }
+        .spot-name { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .bottom-nav { 
-            position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); 
-            background: white; display: flex; justify-content: space-around; 
-            align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; 
-        }
+        /* 穿搭與天氣 */
+        .gear-card { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
+        .gear-weather { padding-right: 18px; border-right: 1px solid #eee; text-align: center; min-width: 75px; }
+        .gear-outfit { padding-left: 18px; }
+        .outfit-tag { font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; }
+
+        /* 交通與酒廊導覽 */
+        .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.1); }
+        .nav-trigger { background: var(--dark); color: white; border-radius: 15px; padding: 14px; text-decoration: none; font-size: 0.9rem; display: block; text-align: center; font-weight: 700; transition: 0.3s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        
+        .lounge-highlight { border-left: 4px solid var(--lounge); padding-left: 12px; margin-top: 10px; }
+
+        /* 底部導航 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, 0.98); display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
+        .bottom-nav i { font-size: 1.4rem; margin-bottom: 4px; }
+
+        .animate-fadeInUp { animation: fadeInUp 0.5s ease-out forwards; }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .blinking { animation: blink 1.5s infinite; color: #00FF00; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
-<body>
+<body class="p-3">
+    <header class="mb-2 mt-2 px-2 animate-fadeInUp">
+        <h2 class="fw-bold" style="letter-spacing: -1px;">Bangkok Saga</h2>
+        <p class="text-muted small"><i class="fas fa-martini-glass-citrus me-2 text-primary"></i>行政酒廊專屬模式</p>
+    </header>
 
-    <div class="header-sticky">
-        <div class="px-3 py-2 d-flex justify-content-between align-items-center">
-            <h6 class="fw-bold mb-0">我的曼谷行程 2026</h6>
-            <button class="btn btn-sm btn-dark rounded-pill" onclick="showMyLocation()"><i class="fas fa-location-arrow"></i></button>
-        </div>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item"><button class="nav-link active" id="d1-tab" data-bs-toggle="tab" data-bs-target="#d1" type="button">DAY 1</button></li>
-            <li class="nav-item"><button class="nav-link" id="d2-tab" data-bs-toggle="tab" data-bs-target="#d2" type="button">DAY 2</button></li>
-            <li class="nav-item"><button class="nav-link" id="d3-tab" data-bs-toggle="tab" data-bs-target="#d3" type="button">DAY 3</button></li>
-            <li class="nav-item"><button class="nav-link" id="d4-tab" data-bs-toggle="tab" data-bs-target="#d4" type="button">DAY 4</button></li>
-            <li class="nav-item"><button class="nav-link" id="d5-tab" data-bs-toggle="tab" data-bs-target="#d5" type="button">DAY 5</button></li>
-        </ul>
-    </div>
-
-    <div class="tab-content" id="myTabContent">
-        <div class="tab-pane fade show active" id="d1">
-            <div class="timeline-card border-start border-4 border-primary">
-                <span class="time-badge">12:35</span> <h6 class="fw-bold d-inline">抵達 BKK 機場</h6>
-                <p class="text-muted small mt-2 mb-0">辦理入境、領行李，預約機場接送或搭乘 ARL 線。</p>
-            </div>
-            <div class="timeline-card" style="border-left: 4px solid var(--stay);">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="fw-bold"><i class="fas fa-hotel"></i> 曼谷洲際酒店</h6>
-                    <span class="hotel-tag">入住 1/2</span>
-                </div>
-                <p class="text-muted small mb-2">InterContinental Bangkok (Chit Lom)</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=InterContinental+Bangkok" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 飯店導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">18:00</span> <h6 class="fw-bold d-inline">Siam Paragon 晚餐</h6>
-                <p class="text-muted small mt-2">步行或搭捷運一站即可抵達，美食選擇極多。</p>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="d2">
-            <div class="timeline-card">
-                <span class="time-badge">10:00</span> <h6 class="fw-bold d-inline">大皇宮 & 玉佛寺</h6>
-                <p class="text-muted small mt-2">泰國經典地標。住宿洲際建議搭乘 Grab 前往。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Grand+Palace+Bangkok" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">14:00</span> <h6 class="fw-bold d-inline">鄭王廟 (Wat Arun)</h6>
-                <p class="text-muted small mt-2">租借泰服拍照。可於大皇宮碼頭搭渡輪橫跨河岸。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Wat+Arun" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">18:00</span> <h6 class="fw-bold d-inline">河畔餐廳晚餐</h6>
-                <p class="text-muted small mt-2">欣賞鄭王廟夜間亮燈美景。</p>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="d3">
-            <div class="timeline-card" style="border-left: 4px solid var(--stay);">
-                <div class="d-flex justify-content-between align-items-start">
-                    <h6 class="fw-bold"><i class="fas fa-exchange-alt"></i> 換飯店：曼谷君悅</h6>
-                    <span class="hotel-tag">入住 1/3</span>
-                </div>
-                <p class="text-muted small mb-2">Grand Hyatt Erawan (在洲際隔壁，搬家超方便)</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Grand+Hyatt+Erawan+Bangkok" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 新飯店導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">13:00</span> <h6 class="fw-bold d-inline">ICONSIAM</h6>
-                <p class="text-muted small mt-2">泰國最強百貨。建議搭乘 BTS 轉金線直達。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=ICONSIAM" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">19:00</span> <h6 class="fw-bold d-inline">河濱碼頭夜市 Asiatique</h6>
-                <p class="text-muted small mt-2">悠閒逛街與摩天輪夜景。</p>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="d4">
-            <div class="timeline-card">
-                <span class="time-badge">11:00</span> <h6 class="fw-bold d-inline">洽圖洽週末市集</h6>
-                <p class="text-muted small mt-2">從君悅飯店搭乘 BTS 綠線直達 Mo Chit 站。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Chatuchak+Weekend+Market" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">18:00</span> <h6 class="fw-bold d-inline">Jodd Fairs 喬德夜市</h6>
-                <p class="text-muted small mt-2">必吃火山排骨。搭乘 MRT 線至 Phra Ram 9 站。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Jodd+Fairs+Rama+9" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-        </div>
-
-        <div class="tab-pane fade" id="d5">
-            <div class="timeline-card">
-                <span class="time-badge">09:00</span> <h6 class="fw-bold d-inline">四面佛參拜</h6>
-                <p class="text-muted small mt-2">就在君悅飯店門口，早上參拜最舒服。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Erawan+Shrine" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card">
-                <span class="time-badge">11:00</span> <h6 class="fw-bold d-inline">Big C 採買</h6>
-                <p class="text-muted small mt-2">Rajdamri 分店。買完直接拿回君悅飯店放行李。</p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Big+C+Supercenter+Rajdamri" target="_blank" class="nav-btn"><i class="fas fa-map"></i> 導航</a>
-            </div>
-            <div class="timeline-card border-start border-4 border-danger">
-                <span class="time-badge">15:00</span> <h6 class="fw-bold d-inline">前往機場回程</h6>
-                <p class="text-muted small mt-2">帶著滿滿回憶與戰利品回台灣！</p>
-            </div>
-        </div>
-    </div>
+    <div class="day-scroller mb-4" id="dayPicker"></div>
+    <div id="dayContent"></div>
 
     <nav class="bottom-nav">
         <a href="index.html"><i class="fas fa-house-chimney"></i><span>總覽</span></a>
@@ -158,15 +66,112 @@
         <a href="guide.html"><i class="fas fa-feather-pointed"></i><span>指南</span></a>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function showMyLocation() {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(function(position) {
-                    window.open(`https://www.google.com/maps/search/?api=1&query=${position.coords.latitude},${position.coords.longitude}`);
-                });
+        const itineraryData = {
+            1: { 
+                title: "抵達洲際酒廊時光", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝 (Lounge Access)", 
+                eng: "InterCon Arrival", query: "InterContinental+Bangkok", dist: "機場接送", time: "12:35 抵達", 
+                desc: "12:35 落地 BKK。入住洲際飯店後，直奔 37 樓行政酒廊。17:30-19:30 享有 Happy Hour 熱食與雞尾酒。", 
+                lounge: "洲際酒廊 (37F): 推薦氣泡酒與現做熱食",
+                spots: [{name: "洲際酒店", q: "InterContinental+Bangkok"}, {name: "行政酒廊", q: "InterContinental+Bangkok+Club+Lounge"}, {name: "四面佛", q: "Erawan+Shrine"}, {name: "Central World", q: "Central+World"}] 
+            },
+            2: { 
+                title: "經典古蹟與酒廊", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (寺廟規定)", 
+                eng: "Heritage", query: "The+Grand+Palace", dist: "Grab/Taxi", time: "09:30 出發", 
+                desc: "初一造訪大皇宮。傍晚務必準時回洲際酒廊，這是最後一晚享受洲際餐食的機會。", 
+                lounge: "洲際酒廊: 最後一晚 Happy Hour 晚餐",
+                spots: [{name: "大皇宮", q: "The+Grand+Palace"}, {name: "鄭王廟", q: "Wat+Arun"}, {name: "中央碼頭", q: "Sathorn+Pier"}, {name: "南龍市場", q: "Nang+Loeng+Market"}] 
+            },
+            3: { 
+                title: "轉場君悅與 ICONSIAM", weather: "33°C", icon: "fa-bag-shopping", outfit: "時尚購物裝", 
+                eng: "Hyatt Shift", query: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km 搬家", time: "11:00 轉場", 
+                desc: "搬家日：步行至君悅酒店。下午逛 ICONSIAM。傍晚回君悅 Grand Club 體驗不同風格餐飲。", 
+                lounge: "君悅 Grand Club: 體驗精緻泰式小食",
+                spots: [{name: "君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok"}, {name: "ICONSIAM", q: "ICONSIAM"}, {name: "Siam Paragon", q: "Siam+Paragon"}, {name: "Siam Discovery", q: "Siam+Discovery"}] 
+            },
+            4: { 
+                title: "市場快閃與君悅酒廊", weather: "32°C", icon: "fa-shrimp", outfit: "輕便短裝", 
+                eng: "Market & Club", query: "Or+Tor+Kor+Market", dist: "BTS/MRT", time: "10:00 出發", 
+                desc: "上午造訪安多哥市場。傍晚回到君悅行政酒廊，享受最安靜舒適的酒廊晚餐環境。", 
+                lounge: "君悅 Grand Club: 經典美酒配四面佛景",
+                spots: [{name: "安多哥市場", q: "Or+Tor+Kor+Market"}, {name: "洽圖洽", q: "Chatuchak+Market"}, {name: "Jodd Fairs", q: "Jodd+Fairs"}, {name: "君悅酒廊", q: "Grand+Hyatt+Erawan+Club"}] 
+            },
+            5: { 
+                title: "最後採買與大眾運輸", weather: "31°C", icon: "fa-plane", outfit: "舒適登機裝", 
+                eng: "Final Farewell", query: "Suvarnabhumi+Airport", dist: "BTS + ARL", time: "11:30 離開", 
+                desc: "Big C 掃貨後。搭乘 BTS 綠線至 Phaya Thai 轉乘 ARL 機場快線，避開傍晚可能的塞車潮。", 
+                lounge: "君悅酒廊: 悠閒早餐後 Check-out",
+                spots: [{name: "Big C", q: "Big+C+Supercenter+Rajdamri"}, {name: "ARL Phaya Thai", q: "Phaya+Thai+ARL+Station"}, {name: "BKK 機場", q: "Suvarnabhumi+Airport"}, {name: "最後泰奶", q: "After+You+Dessert+Cafe"}] 
             }
+        };
+
+        function renderDay(d) {
+            const data = itineraryData[d];
+            const content = document.getElementById('dayContent');
+            const getMapLink = (q) => `https://www.google.com/maps/search/?api=1&query=${q}&travelmode=transit`;
+
+            const spotsHTML = data.spots.map((s, i) => `
+                <a href="${getMapLink(s.q)}" target="_blank" class="spot-btn">
+                    <div class="spot-num">${i + 1}</div>
+                    <div class="spot-name">${s.name}</div>
+                </a>`).join('');
+
+            content.innerHTML = `
+                <div class="animate-fadeInUp">
+                    <div class="hero-info">
+                        <div class="d-flex justify-content-between mb-3 small opacity-75">
+                            <span class="badge bg-white text-dark">DAY ${d}</span>
+                            <span><i class="fas fa-glass-cheers blinking"></i> CLUB LOUNGE NIGHT</span>
+                        </div>
+                        <div class="row g-2 align-items-center">
+                            <div class="col-6">
+                                <h4 class="fw-bold mb-1">${data.title}</h4>
+                                <div class="d-flex flex-wrap gap-1">
+                                    <span class="meta-badge">${data.dist}</span>
+                                    <span class="meta-badge">${data.time}</span>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="spotlight-box">
+                                    <div class="fw-bold mb-2 text-warning" style="font-size:0.6rem;">今日標點</div>
+                                    ${spotsHTML}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gear-card">
+                        <div class="gear-weather"><i class="fas ${data.icon} mb-1" style="color:var(--gold); font-size:1.5rem;"></i><div class="fw-bold">${data.weather}</div></div>
+                        <div class="gear-outfit"><div class="outfit-tag">衣著建議</div><div class="fw-bold" style="font-size:0.85rem;">${data.outfit}</div></div>
+                    </div>
+                    <div class="glass-card mb-3">
+                        <h6 class="fw-bold small"><i class="fas fa-route me-2 text-primary"></i>行程備註</h6>
+                        <p class="small text-muted">${data.desc}</p>
+                        <div class="lounge-highlight">
+                            <div class="fw-bold text-lounge small"><i class="fas fa-star me-1"></i>行政酒廊提醒：</div>
+                            <div class="small text-dark">${data.lounge}</div>
+                        </div>
+                        <a href="${getMapLink(data.query)}" target="_blank" class="nav-trigger mt-3">開啟 Google Map 導航</a>
+                    </div>
+                    <div style="height:100px;"></div>
+                </div>`;
+            localStorage.setItem('bangkok_last_day', d);
         }
+
+        const picker = document.getElementById('dayPicker');
+        for (let i = 1; i <= 5; i++) {
+            const btn = document.createElement('div');
+            btn.className = `day-btn day-id-${i}`;
+            btn.innerText = i;
+            btn.onclick = function() {
+                document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active'); renderDay(i);
+                this.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+            };
+            picker.appendChild(btn);
+        }
+        const lastDay = parseInt(localStorage.getItem('bangkok_last_day')) || 1;
+        renderDay(lastDay);
+        document.querySelector(`.day-id-${lastDay}`).classList.add('active');
     </script>
 </body>
 </html>

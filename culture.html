@@ -3,44 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Saga | Club Lounge Edition</title>
+    <title>Bangkok First Saga | Final Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; --lounge: #9B59B6; }
-        body { font-family: -apple-system, sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 160px !important; margin: 0; overflow-x: hidden; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 160px !important; margin: 0; overflow-x: hidden; }
         
-        /* 頂部日期切換器 */
         .day-scroller { display: flex; overflow-x: auto; padding: 15px; gap: 12px; scrollbar-width: none; position: sticky; top: 0; z-index: 1000; background: var(--bg); }
         .day-scroller::-webkit-scrollbar { display: none; }
         .day-btn { min-width: 50px; height: 50px; border-radius: 15px; background: white; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); scroll-snap-align: center; }
         .day-btn.active { background: var(--gold); color: white; transform: scale(1.1); box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3); }
 
-        /* 主卡片資訊 */
-        .hero-info { background: linear-gradient(135deg, #2D3436 0%, #000000 100%); color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .hero-info { background: linear-gradient(135deg, #2D3436 0%, #1e272e 100%); color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         .meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; margin-top: 5px; }
         
-        /* 景點清單按鈕 */
         .spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .spot-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 6px 10px; margin-bottom: 6px; display: flex; align-items: center; text-decoration: none; color: white; transition: 0.2s; width: 100%; }
         .spot-btn:active { background: var(--gold); transform: scale(0.95); }
         .spot-num { width: 16px; height: 16px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-right: 8px; font-weight: 800; flex-shrink: 0; }
         .spot-name { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* 穿搭與天氣 */
         .gear-card { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
         .gear-weather { padding-right: 18px; border-right: 1px solid #eee; text-align: center; min-width: 75px; }
         .gear-outfit { padding-left: 18px; }
         .outfit-tag { font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; }
 
-        /* 交通與酒廊導覽 */
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.1); }
         .nav-trigger { background: var(--dark); color: white; border-radius: 15px; padding: 14px; text-decoration: none; font-size: 0.9rem; display: block; text-align: center; font-weight: 700; transition: 0.3s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
-        
-        .lounge-highlight { border-left: 4px solid var(--lounge); padding-left: 12px; margin-top: 10px; }
 
-        /* 底部導航 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, 0.98); display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: white; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
         .bottom-nav i { font-size: 1.4rem; margin-bottom: 4px; }
@@ -54,7 +46,7 @@
 <body class="p-3">
     <header class="mb-2 mt-2 px-2 animate-fadeInUp">
         <h2 class="fw-bold" style="letter-spacing: -1px;">Bangkok Saga</h2>
-        <p class="text-muted small"><i class="fas fa-martini-glass-citrus me-2 text-primary"></i>行政酒廊專屬模式</p>
+        <p class="text-muted small"><i class="fas fa-compass me-2 blinking"></i>天選之子的初次曼谷探險</p>
     </header>
 
     <div class="day-scroller mb-4" id="dayPicker"></div>
@@ -69,39 +61,34 @@
     <script>
         const itineraryData = {
             1: { 
-                title: "抵達洲際酒廊時光", weather: "32°C", icon: "fa-sun", outfit: "休閒正裝 (Lounge Access)", 
-                eng: "InterCon Arrival", query: "InterContinental+Bangkok", dist: "機場接送", time: "12:35 抵達", 
-                desc: "12:35 落地 BKK。入住洲際飯店後，直奔 37 樓行政酒廊。17:30-19:30 享有 Happy Hour 熱食與雞尾酒。", 
-                lounge: "洲際酒廊 (37F): 推薦氣泡酒與現做熱食",
-                spots: [{name: "洲際酒店", q: "InterContinental+Bangkok"}, {name: "行政酒廊", q: "InterContinental+Bangkok+Club+Lounge"}, {name: "四面佛", q: "Erawan+Shrine"}, {name: "Central World", q: "Central+World"}] 
+                title: "天使之城的初見面", weather: "31°C", icon: "fa-plane-arrival", outfit: "Smart Casual", 
+                eng: "Arrival & Chit Lom", query: "InterContinental+Bangkok", dist: "機場接駁", time: "12:35 抵達", 
+                desc: "12:35 降落曼谷。這座城市真正的名字其實長達 160 多個字母，簡稱「天使之城」。入住位處心臟地帶的洲際，這裡曾是泰國皇室的土地，下樓即可感受全世界最密集的百貨叢林。第一晚，讓胃在 Central World 的香氣中覺醒。", 
+                spots: [{name: "洲際酒店", q: "InterContinental+Bangkok"}, {name: "四面佛", q: "Erawan+Shrine"}, {name: "Central World", q: "Central+World"}, {name: "Gaysorn", q: "Gaysorn+Village"}] 
             },
             2: { 
-                title: "經典古蹟與酒廊", weather: "31°C", icon: "fa-cloud-sun", outfit: "長裙/長褲 (寺廟規定)", 
-                eng: "Heritage", query: "The+Grand+Palace", dist: "Grab/Taxi", time: "09:30 出發", 
-                desc: "初一造訪大皇宮。傍晚務必準時回洲際酒廊，這是最後一晚享受洲際餐食的機會。", 
-                lounge: "洲際酒廊: 最後一晚 Happy Hour 晚餐",
-                spots: [{name: "大皇宮", q: "The+Grand+Palace"}, {name: "鄭王廟", q: "Wat+Arun"}, {name: "中央碼頭", q: "Sathorn+Pier"}, {name: "南龍市場", q: "Nang+Loeng+Market"}] 
+                title: "暹羅靈魂：金碧與純白", weather: "32°C", icon: "fa-sun", outfit: "寺廟尊重裝 (長裙長褲)", 
+                eng: "Royal Heritage", query: "The+Grand+Palace", dist: "河岸交通", time: "09:00 出發", 
+                desc: "適逢初一，是與當地人一起感受信仰力量的最佳時段。大皇宮是曼谷的靈魂節點，這裡的每片金箔都訴說著拉瑪王朝的富庶；跨過昭披耶河到鄭王廟，看那是完全不同的純白陶瓷美學。別忘了，曼谷的初一通常伴隨熱情的陽光，防曬是您的唯一救贖。", 
+                spots: [{name: "大皇宮", q: "The+Grand+Palace"}, {name: "鄭王廟", q: "Wat+Arun"}, {name: "臥佛寺", q: "Wat+Pho"}, {name: "南龍市場", q: "Nang+Loeng+Market"}] 
             },
             3: { 
-                title: "轉場君悅與 ICONSIAM", weather: "33°C", icon: "fa-bag-shopping", outfit: "時尚購物裝", 
-                eng: "Hyatt Shift", query: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km 搬家", time: "11:00 轉場", 
-                desc: "搬家日：步行至君悅酒店。下午逛 ICONSIAM。傍晚回君悅 Grand Club 體驗不同風格餐飲。", 
-                lounge: "君悅 Grand Club: 體驗精緻泰式小食",
-                spots: [{name: "君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok"}, {name: "ICONSIAM", q: "ICONSIAM"}, {name: "Siam Paragon", q: "Siam+Paragon"}, {name: "Siam Discovery", q: "Siam+Discovery"}] 
+                title: "當古典遇上現代奢華", weather: "33°C", icon: "fa-gem", outfit: "浮誇商場裝", 
+                eng: "Shopping Majesty", query: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km 轉場", time: "11:00 移居", 
+                desc: "今日從洲際移駕隔壁的君悅飯店，這是一個很有趣的地理轉場。下午直攻 ICONSIAM，這座被譽為「百貨公司中的博物館」的建築，完美融合了室內水上市場與現代工藝。在這裡，您會發現泰國人處理視覺美感的才華，簡直是種超能力。", 
+                spots: [{name: "君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok"}, {name: "ICONSIAM", q: "ICONSIAM"}, {name: "暹羅商圈", q: "Siam+Square"}, {name: "金線捷運", q: "BTS+Gold+Line"}] 
             },
             4: { 
-                title: "市場快閃與君悅酒廊", weather: "32°C", icon: "fa-shrimp", outfit: "輕便短裝", 
-                eng: "Market & Club", query: "Or+Tor+Kor+Market", dist: "BTS/MRT", time: "10:00 出發", 
-                desc: "上午造訪安多哥市場。傍晚回到君悅行政酒廊，享受最安靜舒適的酒廊晚餐環境。", 
-                lounge: "君悅 Grand Club: 經典美酒配四面佛景",
-                spots: [{name: "安多哥市場", q: "Or+Tor+Kor+Market"}, {name: "洽圖洽", q: "Chatuchak+Market"}, {name: "Jodd Fairs", q: "Jodd+Fairs"}, {name: "君悅酒廊", q: "Grand+Hyatt+Erawan+Club"}] 
+                title: "市場靈魂與霓虹夜晚", weather: "32°C", icon: "fa-shrimp", outfit: "透氣輕裝", 
+                eng: "Local Vibes", query: "Or+Tor+Kor+Market", dist: "Transit", time: "10:00 出發", 
+                desc: "曼谷人的生活，是從市場開始的。安多哥市場 (Or Tor Kor) 是「米其林級」的菜市場，雖然價格略高，但那是對品質的尊重。傍晚前往喬德夜市，體驗曼谷最熱血的庶民經濟。如果您沒吃過火山排骨，別說您懂曼谷的澎湃。", 
+                spots: [{name: "安多哥市場", q: "Or+Tor+Kor+Market"}, {name: "洽圖洽市集", q: "Chatuchak+Market"}, {name: "喬德夜市", q: "Jodd+Fairs"}, {name: "君悅酒廊", q: "Grand+Hyatt+Club"}] 
             },
             5: { 
-                title: "最後採買與大眾運輸", weather: "31°C", icon: "fa-plane", outfit: "舒適登機裝", 
-                eng: "Final Farewell", query: "Suvarnabhumi+Airport", dist: "BTS + ARL", time: "11:30 離開", 
-                desc: "Big C 掃貨後。搭乘 BTS 綠線至 Phaya Thai 轉乘 ARL 機場快線，避開傍晚可能的塞車潮。", 
-                lounge: "君悅酒廊: 悠閒早餐後 Check-out",
-                spots: [{name: "Big C", q: "Big+C+Supercenter+Rajdamri"}, {name: "ARL Phaya Thai", q: "Phaya+Thai+ARL+Station"}, {name: "BKK 機場", q: "Suvarnabhumi+Airport"}, {name: "最後泰奶", q: "After+You+Dessert+Cafe"}] 
+                title: "最終祈福與泰式賦歸", weather: "31°C", icon: "fa-plane", outfit: "休閒飛行裝", 
+                eng: "Blessing & Farewell", query: "Suvarnabhumi+Airport", dist: "BTS + ARL", time: "11:00 採購", 
+                desc: "臨行前，在君悅飯店旁的四面佛做最後的道別。這尊神像曾在曼谷多次危難中給予人心平靜。最後衝刺 Big C，那是每個旅人回台灣前的神聖儀式。搭乘機場快線避開那些令人絕望的塞車陣，曼谷 Saga 圓滿終章。", 
+                spots: [{name: "四面佛", q: "Erawan+Shrine"}, {name: "Big C", q: "Big+C+Supercenter"}, {name: "機場快線", q: "Phaya+Thai+ARL"}, {name: "BKK 機場", q: "Suvarnabhumi+Airport"}] 
             }
         };
 
@@ -121,19 +108,19 @@
                     <div class="hero-info">
                         <div class="d-flex justify-content-between mb-3 small opacity-75">
                             <span class="badge bg-white text-dark">DAY ${d}</span>
-                            <span><i class="fas fa-glass-cheers blinking"></i> CLUB LOUNGE NIGHT</span>
+                            <span><i class="fas fa-location-dot blinking"></i> LIVE IN BANGKOK</span>
                         </div>
                         <div class="row g-2 align-items-center">
-                            <div class="col-6">
+                            <div class="col-7">
                                 <h4 class="fw-bold mb-1">${data.title}</h4>
                                 <div class="d-flex flex-wrap gap-1">
                                     <span class="meta-badge">${data.dist}</span>
                                     <span class="meta-badge">${data.time}</span>
                                 </div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-5">
                                 <div class="spotlight-box">
-                                    <div class="fw-bold mb-2 text-warning" style="font-size:0.6rem;">今日標點</div>
+                                    <div class="fw-bold mb-2 text-warning" style="font-size:0.6rem;">MUST VISIT</div>
                                     ${spotsHTML}
                                 </div>
                             </div>
@@ -141,16 +128,12 @@
                     </div>
                     <div class="gear-card">
                         <div class="gear-weather"><i class="fas ${data.icon} mb-1" style="color:var(--gold); font-size:1.5rem;"></i><div class="fw-bold">${data.weather}</div></div>
-                        <div class="gear-outfit"><div class="outfit-tag">衣著建議</div><div class="fw-bold" style="font-size:0.85rem;">${data.outfit}</div></div>
+                        <div class="gear-outfit"><div class="outfit-tag">今日穿搭建議</div><div class="fw-bold" style="font-size:0.85rem;">${data.outfit}</div></div>
                     </div>
                     <div class="glass-card mb-3">
-                        <h6 class="fw-bold small"><i class="fas fa-route me-2 text-primary"></i>行程備註</h6>
-                        <p class="small text-muted">${data.desc}</p>
-                        <div class="lounge-highlight">
-                            <div class="fw-bold text-lounge small"><i class="fas fa-star me-1"></i>行政酒廊提醒：</div>
-                            <div class="small text-dark">${data.lounge}</div>
-                        </div>
-                        <a href="${getMapLink(data.query)}" target="_blank" class="nav-trigger mt-3">開啟 Google Map 導航</a>
+                        <h6 class="fw-bold small"><i class="fas fa-feather-pointed me-2 text-primary"></i>城市隨筆 (City Notes)</h6>
+                        <p class="small text-muted" style="line-height: 1.6;">${data.desc}</p>
+                        <a href="${getMapLink(data.query)}" target="_blank" class="nav-trigger mt-3">開啟當前目標地圖</a>
                     </div>
                     <div style="height:100px;"></div>
                 </div>`;

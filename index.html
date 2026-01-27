@@ -3,144 +3,106 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Saga | Command Center</title>
+    <title>Bangkok Saga | Command</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --premium-gold: #C5A059; --deep-dark: #1A1A1A; --soft-bg: #F2F2F7; --success-green: #34C759; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--soft-bg); color: var(--deep-dark); padding-bottom: 120px; margin: 0; }
+        :root { --premium-gold: #C5A059; --deep-dark: #1A1A1A; --soft-bg: #F2F2F7; }
+        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--soft-bg); color: var(--deep-dark); padding-bottom: 110px; margin: 0; }
         
-        /* 頂部商務標頭 */
-        .header-section { background: var(--deep-dark); color: white; padding: 60px 25px 80px; border-radius: 0 0 40px 40px; position: relative; }
-        .user-meta { font-size: 0.7rem; letter-spacing: 2px; color: var(--premium-gold); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-        .main-headline { font-size: 2.4rem; font-weight: 800; letter-spacing: -1.5px; line-height: 1; }
-        .location-tag { position: absolute; bottom: 25px; left: 25px; font-size: 0.75rem; opacity: 0.6; display: flex; align-items: center; }
+        /* 極簡標頭 */
+        .header-minimal { background: var(--deep-dark); color: white; padding: 30px 20px 40px; border-radius: 0 0 25px 25px; }
+        .main-headline { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
 
-        .content-body { margin-top: -50px; padding: 0 18px; }
+        .content-body { margin-top: -25px; padding: 0 16px; }
 
-        /* 行事曆動態卡片 */
-        .itinerary-glance { background: white; border-radius: 28px; padding: 22px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); margin-bottom: 20px; border: 1px solid rgba(0,0,0,0.03); }
-        .glance-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .day-badge { background: var(--deep-dark); color: white; padding: 4px 12px; border-radius: 10px; font-size: 0.7rem; font-weight: 800; }
+        /* 行政時程卡片 */
+        .info-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 15px; }
+        .label-gold { font-size: 0.7rem; font-weight: 800; color: var(--premium-gold); letter-spacing: 1px; margin-bottom: 12px; display: block; }
         
-        /* 匯率與金融數據區 */
-        .finance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .stat-card { background: white; border-radius: 22px; padding: 18px; box-shadow: 0 10px 20px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.02); }
-        .stat-label { font-size: 0.65rem; font-weight: 700; color: #8E8E93; letter-spacing: 0.5px; margin-bottom: 10px; display: block; }
-        .stat-value { font-size: 1.4rem; font-weight: 800; color: var(--deep-dark); }
-        .stat-unit { font-size: 0.75rem; font-weight: 600; color: #8E8E93; margin-left: 4px; }
+        .schedule-line { border-left: 2px solid var(--soft-bg); padding-left: 15px; }
+        .event-row { margin-bottom: 12px; }
+        .event-time { font-size: 0.85rem; font-weight: 800; display: block; }
+        .event-name { font-size: 0.75rem; color: #8E8E93; }
 
-        /* 實戰警語：精簡專業版 */
-        .briefing-card { background: #FFFFFF; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.04); }
-        .briefing-item { padding: 12px 0; border-bottom: 0.5px solid #F2F2F7; display: flex; align-items: flex-start; }
-        .briefing-item:last-child { border-bottom: none; }
-        .briefing-icon { width: 32px; color: var(--premium-gold); font-size: 1rem; margin-top: 2px; }
-        .briefing-content h6 { font-size: 0.9rem; font-weight: 700; margin-bottom: 4px; }
-        .briefing-content p { font-size: 0.75rem; color: #636366; margin-bottom: 0; line-height: 1.4; }
+        /* 導航樞紐 */
+        .nav-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .nav-item { background: white; padding: 15px; border-radius: 18px; text-decoration: none; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .nav-item i { font-size: 1.1rem; color: var(--premium-gold); margin-bottom: 4px; display: block; }
+        .nav-item span { font-size: 0.7rem; font-weight: 700; color: var(--deep-dark); }
 
-        /* 導航按鈕：現代化風格 */
-        .nav-hub { display: flex; gap: 12px; margin-bottom: 20px; }
-        .hub-btn { flex: 1; background: white; padding: 18px; border-radius: 22px; text-decoration: none; text-align: center; box-shadow: 0 8px 16px rgba(0,0,0,0.04); transition: 0.2s; }
-        .hub-btn:active { transform: scale(0.95); background: #F2F2F7; }
-        .hub-btn i { font-size: 1.4rem; color: var(--premium-gold); margin-bottom: 8px; display: block; }
-        .hub-btn span { font-size: 0.8rem; font-weight: 700; color: var(--deep-dark); }
+        /* 關鍵 logistics */
+        .logistics-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 0.5px solid #F2F2F7; }
+        .logistics-row:last-child { border-bottom: none; }
+        .log-title { font-size: 0.8rem; font-weight: 700; }
+        .log-value { font-size: 0.75rem; color: var(--premium-gold); font-weight: 600; }
 
-        /* 底部導航 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 90px; background: rgba(255,255,255,0.9); backdrop-filter: blur(20px); display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid rgba(0,0,0,0.1); z-index: 1000; padding-bottom: 20px; }
-        .bottom-nav a { text-decoration: none; color: #8E8E93; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 600; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 85px; background: rgba(255,255,255,0.98); display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #eee; z-index: 1000; padding-bottom: 15px; }
+        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--deep-dark); }
-        .bottom-nav i { font-size: 1.4rem; margin-bottom: 4px; }
-
-        /* 動效 */
-        .live-dot { width: 6px; height: 6px; background: var(--success-green); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="header-section">
-        <div class="user-meta">Project Bangkok Saga</div>
-        <div class="main-headline">Control Center</div>
-        <div class="location-tag">
-            <span class="live-dot"></span>
-            <span>Current Status: Deployment Ready</span>
-        </div>
+    <div class="header-minimal">
+        <div class="main-headline">Saga Command</div>
     </div>
 
     <div class="content-body">
-        <div class="finance-grid">
-            <div class="stat-card">
-                <span class="stat-label">MARKET TWD/THB</span>
-                <div class="stat-value">1.082<span class="stat-unit">THB</span></div>
-                <div style="font-size:0.6rem; color: var(--success-green); font-weight: 700; margin-top:4px;">+0.12% LIVE</div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">LOCAL TIME</span>
-                <div class="stat-value" id="currentTime">--:--</div>
-                <div style="font-size:0.6rem; color: #8E8E93; font-weight: 700; margin-top:4px;">BANGKOK, TH</div>
-            </div>
-        </div>
-
-        <div class="itinerary-glance">
-            <div class="glance-header">
-                <span class="day-badge">UPCOMING EVENT</span>
-                <span style="font-size: 0.65rem; color: #8E8E93; font-weight: 700;">JAN 29, 2026</span>
-            </div>
-            <h5 class="fw-bold mb-1">大年初一：皇室領魂巡禮</h5>
-            <p class="small text-muted mb-3">06:30 早餐佈署 | 08:00 帕空鮮花市場</p>
-            <div style="background: var(--soft-bg); border-radius: 12px; padding: 12px; font-size: 0.75rem; border-left: 4px solid var(--premium-gold);">
-                <strong>核心指令：</strong> 09:15 進入大皇宮，捕捉 Magic Hour 黃金斜射光，此時段照片商業產值最高。
-            </div>
-        </div>
-
-        <div class="nav-hub">
-            <a href="culture.html" class="hub-btn">
-                <i class="fas fa-route"></i>
-                <span>行程細節</span>
-            </a>
-            <a href="guide.html" class="hub-btn">
-                <i class="fas fa-briefcase"></i>
-                <span>工具指南</span>
-            </a>
-            <a href="thai.html" class="hub-btn">
-                <i class="fas fa-quote-right"></i>
-                <span>泰語戰典</span>
-            </a>
-        </div>
-
-        <div class="briefing-card">
-            <span class="stat-label">Mission Intelligence</span>
-            <div class="briefing-item">
-                <div class="briefing-icon"><i class="fas fa-credit-card"></i></div>
-                <div class="briefing-content">
-                    <h6>支付斷層防範</h6>
-                    <p>街口支付不可用。務必確認玉山 Wallet 之 PromptPay 跨境支付權限已激活。</p>
+        
+        <div class="info-card">
+            <span class="label-gold"><i class="fas fa-clock me-2"></i>CLUB LOUNGE SCHEDULE</span>
+            <div class="schedule-line">
+                <div class="event-row">
+                    <span class="event-time">06:30 – 10:30</span>
+                    <span class="event-name">Breakfast (Optimal Entry: 06:30)</span>
                 </div>
-            </div>
-            <div class="briefing-item">
-                <div class="briefing-icon"><i class="fas fa-hotel"></i></div>
-                <div class="briefing-content">
-                    <h6>轉場後勤提醒</h6>
-                    <p>Day 3 洲際至君悅轉場距離 200m，建議先行存放行李以利 ICONSIAM 採購。</p>
+                <div class="event-row">
+                    <span class="event-time">14:30 – 16:30</span>
+                    <span class="event-name">Afternoon Tea</span>
+                </div>
+                <div class="event-row">
+                    <span class="event-time">17:30 – 19:30</span>
+                    <span class="event-name">Evening Cocktails</span>
                 </div>
             </div>
         </div>
+
+        <div class="nav-grid">
+            <a href="culture.html" class="nav-item">
+                <i class="fas fa-map"></i><span>行程</span>
+            </a>
+            <a href="guide.html" class="nav-item">
+                <i class="fas fa-tools"></i><span>指南</span>
+            </a>
+            <a href="thai.html" class="nav-item">
+                <i class="fas fa-language"></i><span>戰典</span>
+            </a>
+        </div>
+
+        <div class="info-card">
+            <span class="label-gold"><i class="fas fa-paper-plane me-2"></i>MISSION LOGISTICS</span>
+            <div class="logistics-row">
+                <span class="log-title">1/29 初一開運走法</span>
+                <span class="log-value">08:00 Market / 09:15 Palace</span>
+            </div>
+            <div class="logistics-row">
+                <span class="log-title">Hotel Transfer</span>
+                <span class="log-value">Day 3 @ 11:00 AM</span>
+            </div>
+            <div class="logistics-row">
+                <span class="log-title">The Grand Palace Entry</span>
+                <span class="log-value">Vises Chaisri Gate</span>
+            </div>
+        </div>
+
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="active"><i class="fas fa-th-large"></i><span>Command</span></a>
-        <a href="culture.html"><i class="fas fa-map-marked-alt"></i><span>Itinerary</span></a>
+        <a href="index.html" class="active"><i class="fas fa-home"></i><span>Command</span></a>
+        <a href="culture.html"><i class="fas fa-route"></i><span>Itinerary</span></a>
         <a href="guide.html"><i class="fas fa-toolbox"></i><span>Guide</span></a>
     </nav>
 
-    <script>
-        function updateTime() {
-            const now = new Date();
-            const timeStr = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-            document.getElementById('currentTime').innerText = timeStr;
-        }
-        setInterval(updateTime, 1000);
-        updateTime();
-    </script>
 </body>
 </html>

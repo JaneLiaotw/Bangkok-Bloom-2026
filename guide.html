@@ -3,159 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Saga | Master Dashboard</title>
+    <title>Survival Guide | Professional Toolkit</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; --success: #27ae60; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
         body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px; margin: 0; }
         
-        /* 頂部狀態列 */
-        .status-bar { background: var(--dark); color: white; padding: 45px 25px 65px; border-radius: 0 0 40px 40px; }
-        .user-welcome { font-size: 0.75rem; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; }
-        .main-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; margin-top: 5px; }
+        .guide-header { background: var(--dark); color: white; padding: 40px 25px 60px; border-radius: 0 0 35px 35px; }
+        .section-title { font-size: 0.8rem; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 20px 15px; }
 
-        .dashboard-grid { margin-top: -35px; padding: 0 20px; }
-        
-        /* 專業卡片基礎 */
-        .glass-card { 
-            background: white; border-radius: 26px; padding: 22px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 20px;
-            border: 1px solid rgba(218, 165, 32, 0.1);
+        .dashboard-container { margin-top: -35px; padding: 0 20px; }
+        .glass-card { background: white; border-radius: 25px; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 20px; border: 1px solid rgba(218, 165, 32, 0.1); }
+
+        /* 專業匯率計算機 */
+        .calc-row { display: flex; align-items: center; margin-bottom: 15px; }
+        .calc-label { width: 50px; font-weight: 800; color: var(--gold); font-size: 0.8rem; }
+        .calc-input { border: 1px solid #eee; border-radius: 12px; padding: 10px 15px; width: 100%; font-weight: 700; background: #fafafa; }
+        .calc-input:focus { outline: none; border-color: var(--gold); background: white; }
+
+        /* 實戰備忘錄強化版 */
+        .brief-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #eee; }
+        .brief-item:last-child { border-bottom: none; }
+        .brief-icon { font-size: 1.2rem; color: var(--gold); padding-top: 3px; }
+        .brief-title { font-weight: 800; font-size: 0.95rem; display: block; margin-bottom: 4px; }
+        .brief-text { font-size: 0.8rem; color: #666; line-height: 1.6; }
+
+        /* 泰語戰典按鈕 */
+        .thai-master-btn { 
+            background: linear-gradient(135deg, #2D3436 0%, #1e272e 100%); 
+            color: white; padding: 25px; border-radius: 25px; display: flex; 
+            align-items: center; justify-content: space-between; text-decoration: none;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15); transition: 0.3s;
         }
+        .thai-master-btn:active { transform: scale(0.96); }
 
-        /* 即時匯率與時鐘 */
-        .rate-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .sync-tag { font-size: 0.65rem; color: var(--success); background: #e8f5e9; padding: 4px 10px; border-radius: 12px; font-weight: 700; }
-        .rate-box { display: flex; align-items: center; justify-content: space-around; padding: 10px 0; }
-        .rate-num { font-size: 1.6rem; font-weight: 800; }
-        .sync-time { font-size: 0.7rem; color: #999; text-align: center; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
-
-        /* 行程提醒區 */
-        .alert-item { display: flex; gap: 15px; margin-bottom: 18px; }
-        .alert-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .alert-content h6 { font-size: 0.95rem; font-weight: 800; margin-bottom: 3px; }
-        .alert-content p { font-size: 0.8rem; color: #666; margin-bottom: 0; line-height: 1.5; }
-
-        /* 導航按鈕 */
-        .action-btn { 
-            display: flex; align-items: center; justify-content: space-between; 
-            background: white; padding: 20px; border-radius: 22px; 
-            text-decoration: none; color: var(--dark); margin-bottom: 15px;
-            border: 1px solid #eee; transition: 0.3s;
-        }
-        .action-btn:active { transform: scale(0.97); background: #fafafa; }
-        .action-btn i.main-icon { color: var(--gold); font-size: 1.3rem; margin-right: 15px; }
-        .action-title { font-weight: 700; display: block; }
-        .action-sub { font-size: 0.7rem; color: #999; }
-
-        /* 底部導航 */
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 90px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; padding-bottom: 20px; }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
-        .bottom-nav i { font-size: 1.5rem; margin-bottom: 5px; }
-        
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="status-bar">
-        <div class="user-welcome">Commercial Explorer Edition</div>
-        <div class="main-title">Bangkok Saga</div>
+    <div class="guide-header">
+        <h2 class="fw-bold">生存指南</h2>
+        <p class="small opacity-75 mb-0">Professional Survival Toolkit</p>
     </div>
 
-    <div class="dashboard-grid">
+    <div class="dashboard-container">
         <div class="glass-card">
-            <div class="rate-header">
-                <span class="fw-bold small text-muted">REAL-TIME FOREX</span>
-                <span class="sync-tag"><i class="fas fa-circle me-1 pulse" style="font-size: 6px;"></i>LIVE CONNECTED</span>
+            <h6 class="fw-bold mb-3"><i class="fas fa-calculator me-2"></i>即時幣值試算 (Live Rate)</h6>
+            <div class="calc-row">
+                <div class="calc-label">TWD</div>
+                <input type="number" id="twdInput" class="calc-input" placeholder="台幣金額" oninput="convert('twd')">
             </div>
-            <div class="rate-box">
-                <div class="text-center">
-                    <div class="rate-num">1.00</div>
-                    <div class="small text-muted fw-bold">TWD</div>
-                </div>
-                <i class="fas fa-right-left text-muted opacity-50"></i>
-                <div class="text-center">
-                    <div class="rate-num" style="color: var(--gold);">1.08</div>
-                    <div class="small text-muted fw-bold">THB</div>
-                </div>
+            <div class="calc-row">
+                <div class="calc-label">THB</div>
+                <input type="number" id="thbInput" class="calc-input" placeholder="泰銖金額" oninput="convert('thb')">
             </div>
-            <div id="clockDisplay" class="sync-time">正在與曼谷衛星同步時間...</div>
+            <div class="calc-row">
+                <div class="calc-label">USD</div>
+                <input type="number" id="usdInput" class="calc-input" placeholder="美金金額" oninput="convert('usd')">
+            </div>
+            <div class="sync-time text-center mt-2 small text-muted" style="font-size: 0.6rem;">
+                * 匯率參考：1 TWD ≈ 1.08 THB | 1 USD ≈ 35.5 THB
+            </div>
         </div>
 
+        <a href="thai.html" class="thai-master-btn mb-4">
+            <div>
+                <div style="font-size: 0.7rem; font-weight: 600; color: var(--gold); letter-spacing: 1px;">DATABASE ACCESS</div>
+                <h4 class="fw-bold mb-1">100 句泰語戰典</h4>
+                <p class="small mb-0 opacity-50">點擊進入 Survival Phrases 完整列表</p>
+            </div>
+            <i class="fas fa-chevron-right fa-lg"></i>
+        </a>
+
         <div class="glass-card">
-            <h6 class="fw-bold mb-4" style="color: var(--gold);">實戰備忘錄 (Operational Brief)</h6>
+            <h6 class="fw-bold mb-4"><i class="fas fa-shield-halved me-2"></i>實戰備忘 (Field Briefing)</h6>
             
-            <div class="alert-item">
-                <div class="alert-icon" style="background: #fff4e5; color: #e67e22;"><i class="fas fa-star"></i></div>
-                <div class="alert-content">
-                    <h6>1/29 初一黃金動線</h6>
-                    <p>06:30 早餐、08:00 鮮花市場、09:15 大皇宮。避開人潮的唯一解方。</p>
+            <div class="brief-item">
+                <div class="brief-icon"><i class="fas fa-bolt"></i></div>
+                <div class="brief-content">
+                    <span class="brief-title">數位支付：街口斷層警訊</span>
+                    <span class="brief-text">曼谷雖然掃碼普及，但台灣街口尚未通航泰國。請確保「玉山 Wallet」或「全支付」已綁定帳戶並開通跨境權限。現場若看到藍色 PromptPay 立牌，掃描即付，匯率比現金更優。</span>
                 </div>
             </div>
 
-            <div class="alert-item">
-                <div class="alert-icon" style="background: #e1f5fe; color: #0288d1;"><i class="fas fa-wallet"></i></div>
-                <div class="alert-content">
-                    <h6>支付工具檢查</h6>
-                    <p>街口未支援！請確認玉山 Wallet 或全支付已開通 PromptPay 跨境支付。</p>
+            <div class="brief-item">
+                <div class="brief-icon"><i class="fas fa-user-shield"></i></div>
+                <div class="brief-content">
+                    <span class="brief-title">初一攻略：大皇宮防禦心理</span>
+                    <span class="brief-text">1/29 全曼谷華人都會出門祈福。若在皇宮外牆遇到「主動搭訕」稱今日公休或帶路看佛的西裝人士，請維持禮貌微笑並堅定朝「維塞猜悉門」前進。真正的衛兵不主動聊天。</span>
                 </div>
             </div>
 
-            <div class="alert-item">
-                <div class="alert-icon" style="background: #ede7f6; color: #5e35b1;"><i class="fas fa-hotel"></i></div>
-                <div class="alert-content">
-                    <h6>酒店轉場提醒</h6>
-                    <p>Day 3 洲際 → 君悅 (距離 200m)。建議 11:00 辦理轉場以利下午 ICONSIAM 行程。</p>
+            <div class="brief-item">
+                <div class="brief-icon"><i class="fas fa-plug"></i></div>
+                <div class="brief-content">
+                    <span class="brief-title">五星轉場：行政效率與延遲</span>
+                    <span class="brief-text">從洲際退房到君悅進房，這 200 公尺的距離建議在 11:00 完成。雖然行政酒廊是隱藏補給站，但真正的戰場在 ICONSIAM。若行李多，請飯店門口人員協助，給予 20-50 銖小費是優雅商務禮儀。</span>
                 </div>
             </div>
         </div>
-
-        <a href="culture.html" class="action-btn">
-            <div class="d-flex align-items-center">
-                <i class="fas fa-map-location-dot main-icon"></i>
-                <div>
-                    <span class="action-title">查看每日行程與 Magic Hour</span>
-                    <span class="action-sub">包含大皇宮、ICONSIAM 最佳拍攝時間</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-right-long text-muted"></i>
-        </a>
-
-        <a href="guide.html" class="action-btn">
-            <div class="d-flex align-items-center">
-                <i class="fas fa-book-sku main-icon"></i>
-                <div>
-                    <span class="action-title">生存指南與 100 句泰語</span>
-                    <span class="action-sub">戰典入口：點餐、殺價、交通一鍵查詢</span>
-                </div>
-            </div>
-            <i class="fas fa-arrow-right-long text-muted"></i>
-        </a>
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="active"><i class="fas fa-chart-line"></i><span>總覽</span></a>
+        <a href="index.html"><i class="fas fa-chart-line"></i><span>總覽</span></a>
         <a href="culture.html"><i class="fas fa-route"></i><span>行程</span></a>
-        <a href="guide.html"><i class="fas fa-shield-dog"></i><span>指南</span></a>
+        <a href="guide.html" class="active"><i class="fas fa-shield-halved"></i><span>指南</span></a>
     </nav>
 
     <script>
-        function updateTime() {
-            const now = new Date();
-            const options = { 
-                year: 'numeric', month: '2-digit', day: '2-digit', 
-                hour: '2-digit', minute: '2-digit', second: '2-digit', 
-                hour12: false 
-            };
-            const timeString = now.toLocaleString('zh-TW', options).replace(/\//g, '-');
-            document.getElementById('clockDisplay').innerHTML = `<i class="far fa-clock me-1"></i>Last Sync: ${timeString}`;
+        // 幣值轉換邏輯
+        const rates = { twd: 1, thb: 1.08, usd: 0.031 }; // 2026 預估匯率基準
+
+        function convert(type) {
+            const twd = document.getElementById('twdInput');
+            const thb = document.getElementById('thbInput');
+            const usd = document.getElementById('usdInput');
+
+            if (type === 'twd') {
+                thb.value = (twd.value * 1.08).toFixed(2);
+                usd.value = (twd.value / 32).toFixed(2);
+            } else if (type === 'thb') {
+                twd.value = (thb.value / 1.08).toFixed(2);
+                usd.value = (thb.value / 35).toFixed(2);
+            } else if (type === 'usd') {
+                twd.value = (usd.value * 32).toFixed(2);
+                thb.value = (usd.value * 35).toFixed(2);
+            }
         }
-        setInterval(updateTime, 1000);
-        updateTime();
     </script>
 </body>
 </html>

@@ -3,93 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Business Guide | Bangkok Saga</title>
+    <title>Bangkok Saga | Master Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
-        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; --success: #27ae60; }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px; margin: 0; }
         
-        .guide-header { background: var(--dark); color: white; padding: 40px 25px; border-radius: 0 0 35px 35px; margin-bottom: 30px; }
-        .section-title { font-size: 0.8rem; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 20px 15px; }
+        /* 頂部狀態列 */
+        .status-bar { background: var(--dark); color: white; padding: 45px 25px 65px; border-radius: 0 0 40px 40px; }
+        .user-welcome { font-size: 0.75rem; opacity: 0.7; letter-spacing: 2px; text-transform: uppercase; }
+        .main-title { font-size: 2.2rem; font-weight: 800; letter-spacing: -1.5px; margin-top: 5px; }
 
-        /* 戰典入口大卡片 */
-        .master-card { 
-            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%); 
-            margin: 0 20px; padding: 25px; border-radius: 25px; color: white;
-            display: flex; align-items: center; justify-content: space-between;
-            text-decoration: none; box-shadow: 0 15px 30px rgba(218, 165, 32, 0.2);
-            transition: 0.3s;
+        .dashboard-grid { margin-top: -35px; padding: 0 20px; }
+        
+        /* 專業卡片基礎 */
+        .glass-card { 
+            background: white; border-radius: 26px; padding: 22px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06); margin-bottom: 20px;
+            border: 1px solid rgba(218, 165, 32, 0.1);
         }
-        .master-card:active { transform: scale(0.96); }
 
-        /* 工具連結清單 */
-        .tool-link {
-            background: white; margin: 0 20px 12px; padding: 18px 22px; 
-            border-radius: 20px; display: flex; align-items: center;
-            text-decoration: none; color: var(--dark); box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        /* 即時匯率與時鐘 */
+        .rate-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .sync-tag { font-size: 0.65rem; color: var(--success); background: #e8f5e9; padding: 4px 10px; border-radius: 12px; font-weight: 700; }
+        .rate-box { display: flex; align-items: center; justify-content: space-around; padding: 10px 0; }
+        .rate-num { font-size: 1.6rem; font-weight: 800; }
+        .sync-time { font-size: 0.7rem; color: #999; text-align: center; margin-top: 10px; border-top: 1px solid #f0f0f0; padding-top: 10px; }
+
+        /* 行程提醒區 */
+        .alert-item { display: flex; gap: 15px; margin-bottom: 18px; }
+        .alert-icon { width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .alert-content h6 { font-size: 0.95rem; font-weight: 800; margin-bottom: 3px; }
+        .alert-content p { font-size: 0.8rem; color: #666; margin-bottom: 0; line-height: 1.5; }
+
+        /* 導航按鈕 */
+        .action-btn { 
+            display: flex; align-items: center; justify-content: space-between; 
+            background: white; padding: 20px; border-radius: 22px; 
+            text-decoration: none; color: var(--dark); margin-bottom: 15px;
+            border: 1px solid #eee; transition: 0.3s;
         }
-        .tool-icon { width: 40px; height: 40px; background: #fdf6e3; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: var(--gold); }
-        .tool-info { flex-grow: 1; }
-        .tool-name { font-weight: 700; font-size: 0.95rem; }
-        .tool-desc { font-size: 0.75rem; color: #999; }
+        .action-btn:active { transform: scale(0.97); background: #fafafa; }
+        .action-btn i.main-icon { color: var(--gold); font-size: 1.3rem; margin-right: 15px; }
+        .action-title { font-weight: 700; display: block; }
+        .action-sub { font-size: 0.7rem; color: #999; }
 
         /* 底部導航 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 85px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; padding-bottom: 15px; }
-        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 90px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; padding-bottom: 20px; }
+        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.75rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
+        .bottom-nav i { font-size: 1.5rem; margin-bottom: 5px; }
+        
+        .pulse { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
-    <div class="guide-header">
-        <h2 class="fw-bold">生存指南</h2>
-        <p class="small opacity-75 mb-0">Professional Survival Toolkit</p>
+    <div class="status-bar">
+        <div class="user-welcome">Commercial Explorer Edition</div>
+        <div class="main-title">Bangkok Saga</div>
     </div>
 
-    <a href="thai.html" class="master-card">
-        <div>
-            <div style="font-size: 0.75rem; font-weight: 600; opacity: 0.9;">LANGUAGE TOOLKIT</div>
-            <h3 class="fw-bold mb-1">100 句泰語戰典</h3>
-            <p class="small mb-0 opacity-75">快速溝通、點餐、避坑指南</p>
+    <div class="dashboard-grid">
+        <div class="glass-card">
+            <div class="rate-header">
+                <span class="fw-bold small text-muted">REAL-TIME FOREX</span>
+                <span class="sync-tag"><i class="fas fa-circle me-1 pulse" style="font-size: 6px;"></i>LIVE CONNECTED</span>
+            </div>
+            <div class="rate-box">
+                <div class="text-center">
+                    <div class="rate-num">1.00</div>
+                    <div class="small text-muted fw-bold">TWD</div>
+                </div>
+                <i class="fas fa-right-left text-muted opacity-50"></i>
+                <div class="text-center">
+                    <div class="rate-num" style="color: var(--gold);">1.08</div>
+                    <div class="small text-muted fw-bold">THB</div>
+                </div>
+            </div>
+            <div id="clockDisplay" class="sync-time">正在與曼谷衛星同步時間...</div>
         </div>
-        <i class="fas fa-language fa-3x opacity-50"></i>
-    </a>
 
-    <div class="section-title">Essential Tools</div>
+        <div class="glass-card">
+            <h6 class="fw-bold mb-4" style="color: var(--gold);">實戰備忘錄 (Operational Brief)</h6>
+            
+            <div class="alert-item">
+                <div class="alert-icon" style="background: #fff4e5; color: #e67e22;"><i class="fas fa-star"></i></div>
+                <div class="alert-content">
+                    <h6>1/29 初一黃金動線</h6>
+                    <p>06:30 早餐、08:00 鮮花市場、09:15 大皇宮。避開人潮的唯一解方。</p>
+                </div>
+            </div>
 
-    <div class="tool-link">
-        <div class="tool-icon"><i class="fas fa-wallet"></i></div>
-        <div class="tool-info">
-            <div class="tool-name">支付檢核表</div>
-            <div class="tool-desc">PromptPay</div>
+            <div class="alert-item">
+                <div class="alert-icon" style="background: #e1f5fe; color: #0288d1;"><i class="fas fa-wallet"></i></div>
+                <div class="alert-content">
+                    <h6>支付工具檢查</h6>
+                    <p>街口未支援！請確認玉山 Wallet 或全支付已開通 PromptPay 跨境支付。</p>
+                </div>
+            </div>
+
+            <div class="alert-item">
+                <div class="alert-icon" style="background: #ede7f6; color: #5e35b1;"><i class="fas fa-hotel"></i></div>
+                <div class="alert-content">
+                    <h6>酒店轉場提醒</h6>
+                    <p>Day 3 洲際 → 君悅 (距離 200m)。建議 11:00 辦理轉場以利下午 ICONSIAM 行程。</p>
+                </div>
+            </div>
         </div>
-        <i class="fas fa-chevron-right text-muted opacity-30"></i>
-    </div>
 
-    <div class="tool-link">
-        <div class="tool-icon"><i class="fas fa-phone-flip"></i></div>
-        <div class="tool-info">
-            <div class="tool-name">緊急聯絡資訊</div>
-            <div class="tool-desc">觀光警察 1155 / 駐泰代表處</div>
-        </div>
-        <i class="fas fa-chevron-right text-muted opacity-30"></i>
-    </div>
+        <a href="culture.html" class="action-btn">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-map-location-dot main-icon"></i>
+                <div>
+                    <span class="action-title">查看每日行程與 Magic Hour</span>
+                    <span class="action-sub">包含大皇宮、ICONSIAM 最佳拍攝時間</span>
+                </div>
+            </div>
+            <i class="fas fa-arrow-right-long text-muted"></i>
+        </a>
 
-    <div class="tool-link">
-        <div class="tool-icon"><i class="fas fa-calculator"></i></div>
-        <div class="tool-info">
-            <div class="tool-name">即時匯率換算</div>
-            <div class="tool-desc">快速計算 TWD 與 THB 價差</div>
-        </div>
-        <i class="fas fa-chevron-right text-muted opacity-30"></i>
+        <a href="guide.html" class="action-btn">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-book-sku main-icon"></i>
+                <div>
+                    <span class="action-title">生存指南與 100 句泰語</span>
+                    <span class="action-sub">戰典入口：點餐、殺價、交通一鍵查詢</span>
+                </div>
+            </div>
+            <i class="fas fa-arrow-right-long text-muted"></i>
+        </a>
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html"><i class="fas fa-house-chimney"></i><span>總覽</span></a>
-        <a href="culture.html"><i class="fas fa-compass"></i><span>行程</span></a>
-        <a href="guide.html" class="active"><i class="fas fa-feather-pointed"></i><span>指南</span></a>
+        <a href="index.html" class="active"><i class="fas fa-chart-line"></i><span>總覽</span></a>
+        <a href="culture.html"><i class="fas fa-route"></i><span>行程</span></a>
+        <a href="guide.html"><i class="fas fa-shield-dog"></i><span>指南</span></a>
     </nav>
 
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const options = { 
+                year: 'numeric', month: '2-digit', day: '2-digit', 
+                hour: '2-digit', minute: '2-digit', second: '2-digit', 
+                hour12: false 
+            };
+            const timeString = now.toLocaleString('zh-TW', options).replace(/\//g, '-');
+            document.getElementById('clockDisplay').innerHTML = `<i class="far fa-clock me-1"></i>Last Sync: ${timeString}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+    </script>
 </body>
 </html>

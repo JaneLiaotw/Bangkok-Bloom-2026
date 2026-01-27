@@ -3,106 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Saga | Command</title>
+    <title>Bangkok Saga | Elite Command</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --premium-gold: #C5A059; --deep-dark: #1A1A1A; --soft-bg: #F2F2F7; }
-        body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: var(--soft-bg); color: var(--deep-dark); padding-bottom: 110px; margin: 0; }
+        :root { --p-gold: #D4AF37; --deep-obsidian: #121212; --soft-silver: #F8F9FA; --accent-blue: #007AFF; }
+        body { font-family: -apple-system, "SF Pro Display", "Noto Sans TC", sans-serif; background: #FFFFFF; color: var(--deep-obsidian); padding-bottom: 120px; margin: 0; overflow-x: hidden; }
         
-        /* 極簡標頭 */
-        .header-minimal { background: var(--deep-dark); color: white; padding: 30px 20px 40px; border-radius: 0 0 25px 25px; }
-        .main-headline { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.5px; }
+        /* 高級感漸層標頭 */
+        .header-wrap { background: linear-gradient(180deg, var(--deep-obsidian) 0%, #2D3436 100%); color: white; padding: 60px 30px 80px; border-radius: 0 0 50px 50px; position: relative; }
+        .header-wrap .badge { background: var(--p-gold); color: black; font-weight: 800; font-size: 0.65rem; border-radius: 6px; padding: 4px 8px; letter-spacing: 1px; }
+        .header-wrap h1 { font-size: 2.8rem; font-weight: 900; letter-spacing: -2px; margin-top: 15px; }
+        .header-wrap .sub { font-size: 0.85rem; opacity: 0.6; font-weight: 500; letter-spacing: 0.5px; }
 
-        .content-body { margin-top: -25px; padding: 0 16px; }
+        .main-container { margin-top: -50px; padding: 0 25px; }
 
-        /* 行政時程卡片 */
-        .info-card { background: white; border-radius: 22px; padding: 20px; box-shadow: 0 8px 25px rgba(0,0,0,0.05); margin-bottom: 15px; }
-        .label-gold { font-size: 0.7rem; font-weight: 800; color: var(--premium-gold); letter-spacing: 1px; margin-bottom: 12px; display: block; }
-        
-        .schedule-line { border-left: 2px solid var(--soft-bg); padding-left: 15px; }
-        .event-row { margin-bottom: 12px; }
-        .event-time { font-size: 0.85rem; font-weight: 800; display: block; }
-        .event-name { font-size: 0.75rem; color: #8E8E93; }
+        /* 核心作戰卡片 (1/29 計畫) */
+        .priority-card { 
+            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(20px);
+            border-radius: 35px; padding: 30px; box-shadow: 0 25px 50px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.3); margin-bottom: 25px;
+        }
+        .instruction-box { border-left: 3px solid var(--p-gold); padding-left: 20px; margin: 20px 0; }
+        .time-node { font-size: 0.75rem; font-weight: 700; color: var(--p-gold); text-transform: uppercase; }
+        .event-title { font-size: 1.1rem; font-weight: 800; display: block; margin-bottom: 5px; }
 
-        /* 導航樞紐 */
-        .nav-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .nav-item { background: white; padding: 15px; border-radius: 18px; text-decoration: none; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .nav-item i { font-size: 1.1rem; color: var(--premium-gold); margin-bottom: 4px; display: block; }
-        .nav-item span { font-size: 0.7rem; font-weight: 700; color: var(--deep-dark); }
+        /* 快捷樞紐：去除邊框，使用深度陰影 */
+        .hub-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
+        .hub-item { background: #F8F9FA; border-radius: 25px; padding: 22px 10px; text-align: center; text-decoration: none; color: var(--deep-obsidian); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hub-item:active { transform: scale(0.9); background: #EEE; }
+        .hub-item i { font-size: 1.5rem; color: var(--deep-obsidian); margin-bottom: 10px; display: block; }
+        .hub-item span { font-size: 0.75rem; font-weight: 700; opacity: 0.8; }
 
-        /* 關鍵 logistics */
-        .logistics-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 0.5px solid #F2F2F7; }
-        .logistics-row:last-child { border-bottom: none; }
-        .log-title { font-size: 0.8rem; font-weight: 700; }
-        .log-value { font-size: 0.75rem; color: var(--premium-gold); font-weight: 600; }
+        /* 雙軌行政酒廊：置底且更具層次 */
+        .lounge-section { background: var(--soft-silver); border-radius: 40px; padding: 30px 25px; margin-bottom: 30px; }
+        .lounge-nav { display: flex; gap: 10px; margin-bottom: 25px; background: #E9ECEF; padding: 5px; border-radius: 18px; }
+        .ln-btn { flex: 1; padding: 10px; border-radius: 14px; border: none; font-size: 0.75rem; font-weight: 800; color: #6C757D; background: transparent; transition: 0.3s; }
+        .ln-btn.active { background: white; color: var(--deep-obsidian); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 85px; background: rgba(255,255,255,0.98); display: flex; justify-content: space-around; align-items: center; border-top: 0.5px solid #eee; z-index: 1000; padding-bottom: 15px; }
-        .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
-        .bottom-nav a.active { color: var(--deep-dark); }
+        .schedule-card { display: flex; align-items: center; background: white; padding: 18px; border-radius: 20px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
+        .sc-time { min-width: 90px; font-weight: 900; font-size: 0.9rem; color: var(--p-gold); }
+        .sc-desc { font-size: 0.8rem; font-weight: 600; color: #444; }
+
+        /* 底部導航 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 95px; background: rgba(255,255,255,0.85); backdrop-filter: blur(25px); display: flex; justify-content: space-around; align-items: center; border-top: 1px solid rgba(0,0,0,0.05); padding-bottom: 20px; z-index: 1000; }
+        .bottom-nav a { text-decoration: none; color: #BBB; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 800; transition: 0.3s; }
+        .bottom-nav a.active { color: var(--deep-obsidian); transform: translateY(-3px); }
+        .bottom-nav i { font-size: 1.4rem; margin-bottom: 6px; }
+
+        /* 滑入動畫 */
+        .fade-up { animation: fadeUp 0.8s ease-out forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <div class="header-minimal">
-        <div class="main-headline">Saga Command</div>
+    <div class="header-wrap">
+        <span class="badge">EST. 2026</span>
+        <h1>Bangkok<br>Saga.</h1>
+        <div class="sub">The Ultimate Executive Itinerary</div>
     </div>
 
-    <div class="content-body">
-        
-        <div class="info-card">
-            <span class="label-gold"><i class="fas fa-clock me-2"></i>CLUB LOUNGE SCHEDULE</span>
-            <div class="schedule-line">
-                <div class="event-row">
-                    <span class="event-time">06:30 – 10:30</span>
-                    <span class="event-name">Breakfast (Optimal Entry: 06:30)</span>
-                </div>
-                <div class="event-row">
-                    <span class="event-time">14:30 – 16:30</span>
-                    <span class="event-name">Afternoon Tea</span>
-                </div>
-                <div class="event-row">
-                    <span class="event-time">17:30 – 19:30</span>
-                    <span class="event-name">Evening Cocktails</span>
-                </div>
+    <div class="main-container">
+        <div class="priority-card fade-up">
+            <div class="d-flex justify-content-between align-items-center">
+                <span style="font-size: 0.7rem; font-weight: 900; letter-spacing: 2px; color: #BBB;">DAY 2 | 01.29</span>
+                <i class="fas fa-ellipsis-h text-muted"></i>
+            </div>
+            <div class="instruction-box">
+                <span class="time-node">06:30 Strategy</span>
+                <span class="event-title">洲際行政酒廊早餐</span>
+                <span class="time-node">08:00 Deployment</span>
+                <span class="event-title">帕空鮮花市場</span>
+                <span class="time-node">09:15 Objective</span>
+                <span class="event-title">大皇宮正門入城</span>
+            </div>
+            <div class="small text-muted fw-bold">
+                <i class="fas fa-info-circle me-1" style="color: var(--p-gold);"></i> 
+                Day 3 飯店轉場點：11:00 AM (洲際 ➔ 君悅)
             </div>
         </div>
 
-        <div class="nav-grid">
-            <a href="culture.html" class="nav-item">
-                <i class="fas fa-map"></i><span>行程</span>
+        <div class="hub-grid">
+            <a href="culture.html" class="hub-item">
+                <i class="fas fa-compass"></i><span>行程</span>
             </a>
-            <a href="guide.html" class="nav-item">
-                <i class="fas fa-tools"></i><span>指南</span>
+            <a href="guide.html" class="hub-item">
+                <i class="fas fa-layer-group"></i><span>工具</span>
             </a>
-            <a href="thai.html" class="nav-item">
+            <a href="thai.html" class="hub-item">
                 <i class="fas fa-language"></i><span>戰典</span>
             </a>
         </div>
 
-        <div class="info-card">
-            <span class="label-gold"><i class="fas fa-paper-plane me-2"></i>MISSION LOGISTICS</span>
-            <div class="logistics-row">
-                <span class="log-title">1/29 初一開運走法</span>
-                <span class="log-value">08:00 Market / 09:15 Palace</span>
+        <div class="lounge-section fade-up">
+            <div class="d-flex justify-content-between align-items-end mb-3">
+                <h6 class="fw-bold mb-0">Executive Lounge</h6>
+                <span class="small fw-bold opacity-50">SUPPLY SCHEDULE</span>
             </div>
-            <div class="logistics-row">
-                <span class="log-title">Hotel Transfer</span>
-                <span class="log-value">Day 3 @ 11:00 AM</span>
+            
+            <div class="lounge-nav">
+                <button class="ln-btn active" id="btn-ic" onclick="toggleL(1)">INTERCONTINENTAL</button>
+                <button class="ln-btn" id="btn-hy" onclick="toggleL(2)">GRAND HYATT</button>
             </div>
-            <div class="logistics-row">
-                <span class="log-title">The Grand Palace Entry</span>
-                <span class="log-value">Vises Chaisri Gate</span>
+
+            <div id="sched-1">
+                <div class="schedule-card"><span class="sc-time">06:30-10:30</span><span class="sc-desc">Club Breakfast</span></div>
+                <div class="schedule-card"><span class="sc-time">14:30-16:30</span><span class="sc-desc">Afternoon Tea</span></div>
+                <div class="schedule-card"><span class="sc-time">17:30-19:30</span><span class="sc-desc">Evening Cocktails</span></div>
+            </div>
+
+            <div id="sched-2" style="display: none;">
+                <div class="schedule-card"><span class="sc-time">06:30-11:00</span><span class="sc-desc">Executive Breakfast</span></div>
+                <div class="schedule-card"><span class="sc-time">14:00-16:00</span><span class="sc-desc">Refreshments</span></div>
+                <div class="schedule-card"><span class="sc-time">17:30-19:30</span><span class="sc-desc">Evening Cocktails</span></div>
             </div>
         </div>
-
     </div>
 
     <nav class="bottom-nav">
-        <a href="index.html" class="active"><i class="fas fa-home"></i><span>Command</span></a>
-        <a href="culture.html"><i class="fas fa-route"></i><span>Itinerary</span></a>
-        <a href="guide.html"><i class="fas fa-toolbox"></i><span>Guide</span></a>
+        <a href="index.html" class="active"><i class="fas fa-house-user"></i><span>COMMAND</span></a>
+        <a href="culture.html"><i class="fas fa-location-arrow"></i><span>SAGA</span></a>
+        <a href="guide.html"><i class="fas fa-shield-halved"></i><span>GUIDE</span></a>
     </nav>
 
+    <script>
+        function toggleL(id) {
+            const b1 = document.getElementById('btn-ic'), b2 = document.getElementById('btn-hy');
+            const s1 = document.getElementById('sched-1'), s2 = document.getElementById('sched-2');
+            if(id === 1) {
+                b1.classList.add('active'); b2.classList.remove('active');
+                s1.style.display = 'block'; s2.style.display = 'none';
+            } else {
+                b2.classList.add('active'); b1.classList.remove('active');
+                s2.style.display = 'block'; s1.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

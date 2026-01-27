@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok Survival Guide | Master Edition</title>
+    <title>Business Guide | Bangkok Saga</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #1A1A1A; --bg: #F9F7F2; --accent: #E67E22; }
-        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px !important; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
+        body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 120px; }
         
-        /* 頁首樣式 */
-        .guide-header { background: var(--dark); color: white; padding: 30px 20px; border-radius: 0 0 30px 30px; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        
-        /* 指南卡片 */
-        .guide-card { background: white; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .card-title { font-weight: 800; font-size: 1.1rem; color: var(--gold); margin-bottom: 15px; display: flex; align-items: center; }
-        .card-title i { margin-right: 10px; font-size: 1.2rem; }
+        .guide-header { background: var(--dark); color: white; padding: 40px 25px; border-radius: 0 0 35px 35px; margin-bottom: 30px; }
+        .section-title { font-size: 0.8rem; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 20px 15px; }
 
-        /* 交通圖標清單 */
-        .transport-badge { display: flex; align-items: center; margin-bottom: 12px; padding: 10px; border-radius: 12px; background: #f8f9fa; }
-        .badge-icon { width: 35px; height: 35px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: white; }
-        
-        /* 分類內容樣式 */
-        .guide-item { font-size: 0.9rem; line-height: 1.6; margin-bottom: 8px; color: #555; }
-        .highlight { color: var(--accent); font-weight: 700; }
-        .pro-tip { background: #fff8e1; border-left: 4px solid #ffc107; padding: 10px; font-size: 0.85rem; border-radius: 4px; margin-top: 10px; }
+        /* 戰典入口大卡片 */
+        .master-card { 
+            background: linear-gradient(135deg, #DAA520 0%, #B8860B 100%); 
+            margin: 0 20px; padding: 25px; border-radius: 25px; color: white;
+            display: flex; align-items: center; justify-content: space-between;
+            text-decoration: none; box-shadow: 0 15px 30px rgba(218, 165, 32, 0.2);
+            transition: 0.3s;
+        }
+        .master-card:active { transform: scale(0.96); }
 
-        /* 底部導覽 */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: white; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 10000; }
+        /* 工具連結清單 */
+        .tool-link {
+            background: white; margin: 0 20px 12px; padding: 18px 22px; 
+            border-radius: 20px; display: flex; align-items: center;
+            text-decoration: none; color: var(--dark); box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .tool-icon { width: 40px; height: 40px; background: #fdf6e3; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: var(--gold); }
+        .tool-info { flex-grow: 1; }
+        .tool-name { font-weight: 700; font-size: 0.95rem; }
+        .tool-desc { font-size: 0.75rem; color: #999; }
+
+        /* 底部導航 */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: 85px; background: white; display: flex; justify-content: space-around; align-items: center; border-top: 1px solid #eee; z-index: 1000; padding-bottom: 15px; }
         .bottom-nav a { text-decoration: none; color: #BDBDBD; display: flex; flex-direction: column; align-items: center; font-size: 0.7rem; font-weight: 700; }
         .bottom-nav a.active { color: var(--gold); }
     </style>
@@ -36,59 +43,46 @@
 <body>
 
     <div class="guide-header">
-        <h2 class="fw-bold mb-1">Bangkok Survival Guide</h2>
-        <p class="opacity-75 mb-0 small"><i class="fas fa-calendar-check me-1"></i> 2026 曼谷實戰生存手冊</p>
+        <h2 class="fw-bold">生存指南</h2>
+        <p class="small opacity-75 mb-0">Professional Survival Toolkit</p>
     </div>
 
-    <div class="container">
-        <div class="guide-card">
-            <div class="card-title"><i class="fas fa-train"></i> 城市移動攻略</div>
-            <div class="transport-badge">
-                <div class="badge-icon" style="background: #00843D;">BTS</div>
-                <div><span class="fw-bold">空鐵</span>：買 <span class="highlight">Rabbit Card</span>，涵蓋主要商圈。</div>
-            </div>
-            <div class="transport-badge">
-                <div class="badge-icon" style="background: #003399;">MRT</div>
-                <div><span class="fw-bold">地鐵</span>：可用 <span class="highlight">Visa/Mastercard</span> 感應過閘機。</div>
-            </div>
-            <div class="transport-badge">
-                <div class="badge-icon" style="background: #2ECC71;">APP</div>
-                <div><span class="fw-bold">Grab / Bolt</span>：必裝！Bolt 通常較便宜但車較少。</div>
-            </div>
-            <div class="pro-tip">
-                <strong>高手叮嚀：</strong> 曼谷 17:00-20:00 是交通地獄，盡量搭捷運或運河快船 (Khlong Saen Saep)，避開陸路塞車。
-            </div>
+    <a href="thai.html" class="master-card">
+        <div>
+            <div style="font-size: 0.75rem; font-weight: 600; opacity: 0.9;">LANGUAGE TOOLKIT</div>
+            <h3 class="fw-bold mb-1">100 句泰語戰典</h3>
+            <p class="small mb-0 opacity-75">快速溝通、點餐、避坑指南</p>
         </div>
+        <i class="fas fa-language fa-3x opacity-50"></i>
+    </a>
 
-        <div class="guide-card">
-            <div class="card-title"><i class="fas fa-wallet"></i> 換匯與支付</div>
-            <div class="guide-item">● 換匯首選：<span class="highlight">SuperRich (橘色或綠色)</span>。</div>
-            <div class="guide-item">● 準備百元美金或台幣千元大鈔，匯率最佳。</div>
-            <div class="guide-item">● 街頭美食：多數攤販支持 <span class="highlight">PromptPay (掃碼)</span>，觀光客可先備妥現金。</div>
-            <div class="guide-item">● 信用卡：大商場通用，但 7-11 刷卡通常有 200-300 銖門檻。</div>
-        </div>
+    <div class="section-title">Essential Tools</div>
 
-        <div class="guide-card">
-            <div class="card-title"><i class="fas fa-suitcase-rolling"></i> 退稅與實用資訊</div>
-            <div class="guide-item"><span class="fw-bold">退稅 (VAT Refund)：</span></div>
-            <div class="guide-item">1. 店內消費滿 2,000 銖需索取黃色 P.P.10 表格。</div>
-            <div class="guide-item">2. 機場海關蓋章需在 <span class="highlight">掛行李前</span> 辦理。</div>
-            <hr>
-            <div class="guide-item"><span class="fw-bold">插座與電壓：</span></div>
-            <div class="guide-item">● 電壓 220V。插座通常與台灣相容 (兩孔扁頭可直接用)，不需轉接頭但要注意電器是否支援國際電壓。</div>
+    <div class="tool-link">
+        <div class="tool-icon"><i class="fas fa-wallet"></i></div>
+        <div class="tool-info">
+            <div class="tool-name">支付檢核表</div>
+            <div class="tool-desc">PromptPay</div>
         </div>
+        <i class="fas fa-chevron-right text-muted opacity-30"></i>
+    </div>
 
-        <div class="guide-card">
-            <div class="card-title"><i class="fas fa-shield-halved"></i> 習俗禁忌與求助</div>
-            <div class="guide-item">● <span class="highlight">尊重皇室</span>：不可對國王畫像不敬，嚴禁議論皇室。</div>
-            <div class="guide-item">● <span class="highlight">寺廟穿著</span>：進入大皇宮等寺廟須穿長褲/長裙，嚴禁背心或短褲。</div>
-            <div class="guide-item">● <span class="highlight">禁止摸頭</span>：泰國人認為頭部神聖，請勿隨意觸摸他人頭部。</div>
-            <div class="pro-tip">
-                <strong>🚨 緊急求助熱線：</strong><br>
-                觀光警察 (聽懂英文)：<a href="tel:1155" class="text-decoration-none">1155</a><br>
-                救護車：<a href="tel:1669" class="text-decoration-none">1669</a>
-            </div>
+    <div class="tool-link">
+        <div class="tool-icon"><i class="fas fa-phone-flip"></i></div>
+        <div class="tool-info">
+            <div class="tool-name">緊急聯絡資訊</div>
+            <div class="tool-desc">觀光警察 1155 / 駐泰代表處</div>
         </div>
+        <i class="fas fa-chevron-right text-muted opacity-30"></i>
+    </div>
+
+    <div class="tool-link">
+        <div class="tool-icon"><i class="fas fa-calculator"></i></div>
+        <div class="tool-info">
+            <div class="tool-name">即時匯率換算</div>
+            <div class="tool-desc">快速計算 TWD 與 THB 價差</div>
+        </div>
+        <i class="fas fa-chevron-right text-muted opacity-30"></i>
     </div>
 
     <nav class="bottom-nav">

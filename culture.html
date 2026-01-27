@@ -3,33 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Bangkok First Saga | Final Edition</title>
+    <title>Bangkok Saga | The Master Edition</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; }
+        :root { --gold: #DAA520; --dark: #2D3436; --bg: #F9F7F2; --accent: #E67E22; }
         body { font-family: -apple-system, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--dark); padding-bottom: 160px !important; margin: 0; overflow-x: hidden; }
         
+        /* 頂部日期切換 */
         .day-scroller { display: flex; overflow-x: auto; padding: 15px; gap: 12px; scrollbar-width: none; position: sticky; top: 0; z-index: 1000; background: var(--bg); }
         .day-scroller::-webkit-scrollbar { display: none; }
         .day-btn { min-width: 50px; height: 50px; border-radius: 15px; background: white; border: 1.5px solid var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--gold); scroll-snap-align: center; }
         .day-btn.active { background: var(--gold); color: white; transform: scale(1.1); box-shadow: 0 5px 15px rgba(218, 165, 32, 0.3); }
 
+        /* 主卡片設計 */
         .hero-info { background: linear-gradient(135deg, #2D3436 0%, #1e272e 100%); color: white; border-radius: 28px; padding: 22px; margin-bottom: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
         .meta-badge { background: rgba(255, 255, 255, 0.15); padding: 4px 10px; border-radius: 10px; font-size: 0.7rem; margin-right: 5px; margin-top: 5px; }
         
+        /* 景點小標點 */
         .spotlight-box { background: rgba(255, 255, 255, 0.08); border-radius: 18px; padding: 12px; border: 1px solid rgba(255,255,255,0.1); }
         .spot-btn { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; padding: 6px 10px; margin-bottom: 6px; display: flex; align-items: center; text-decoration: none; color: white; transition: 0.2s; width: 100%; }
         .spot-btn:active { background: var(--gold); transform: scale(0.95); }
         .spot-num { width: 16px; height: 16px; background: var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; margin-right: 8px; font-weight: 800; flex-shrink: 0; }
         .spot-name { font-size: 0.75rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+        /* 穿搭與天氣 */
         .gear-card { background: white; border-radius: 20px; padding: 18px; margin-bottom: 15px; display: flex; align-items: center; border: 1px solid #eee; }
         .gear-weather { padding-right: 18px; border-right: 1px solid #eee; text-align: center; min-width: 75px; }
         .gear-outfit { padding-left: 18px; }
         .outfit-tag { font-size: 0.7rem; color: var(--gold); font-weight: 800; text-transform: uppercase; }
 
+        /* 城市隨筆玻璃卡片 */
         .glass-card { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(10px); border-radius: 24px; padding: 20px; margin-bottom: 15px; border: 1px solid rgba(218, 165, 32, 0.1); }
+        .tip-box { background: #fff9e6; border-left: 4px solid var(--gold); padding: 12px; border-radius: 8px; margin-top: 15px; }
         .nav-trigger { background: var(--dark); color: white; border-radius: 15px; padding: 14px; text-decoration: none; font-size: 0.9rem; display: block; text-align: center; font-weight: 700; transition: 0.3s; width: 100%; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: calc(85px + env(safe-area-inset-bottom)); background: white; display: flex; justify-content: space-around; align-items: center; padding-bottom: env(safe-area-inset-bottom); border-top: 1px solid #eee; z-index: 9999; }
@@ -46,7 +52,7 @@
 <body class="p-3">
     <header class="mb-2 mt-2 px-2 animate-fadeInUp">
         <h2 class="fw-bold" style="letter-spacing: -1px;">Bangkok Saga</h2>
-        <p class="text-muted small"><i class="fas fa-compass me-2 blinking"></i>2006 曼谷行</p>
+        <p class="text-muted small"><i class="fas fa-camera-retro me-2 blinking"></i>天選之子的初次曼谷探險</p>
     </header>
 
     <div class="day-scroller mb-4" id="dayPicker"></div>
@@ -62,33 +68,43 @@
         const itineraryData = {
             1: { 
                 title: "天使之城的初見面", weather: "31°C", icon: "fa-plane-arrival", outfit: "Smart Casual", 
-                eng: "Arrival & Chit Lom", query: "InterContinental+Bangkok", dist: "機場接駁", time: "12:35 抵達", 
-                desc: "12:35 降落曼谷。這座城市真正的名字其實長達 160 多個字母，簡稱「天使之城」。入住位處心臟地帶的洲際，這裡曾是泰國皇室的土地，下樓即可感受全世界最密集的百貨叢林。第一晚，讓胃在 Central World 的香氣中覺醒。", 
-                spots: [{name: "洲際酒店", q: "InterContinental+Bangkok"}, {name: "四面佛", q: "Erawan+Shrine"}, {name: "Central World", q: "Central+World"}, {name: "Gaysorn", q: "Gaysorn+Village"}] 
+                eng: "Arrival & City Pulse", query: "InterContinental+Bangkok", dist: "機場接駁", time: "12:35 抵達", 
+                desc: "12:35 降落曼谷。這座城市真正的名字其實長達 160 多個字母。入住位處心臟地帶的洲際，下樓即可感受全世界最密集的百貨叢林。", 
+                notes: "第一天支付提醒：街口支付目前尚未支援泰國掃碼，請改用『玉山 Wallet』或『全支付』掃描 PromptPay。若要搭 BTS，建議先在 Chit Lom 站購買 Rabbit Card 並充值現金。",
+                magic: "📸 拍攝提示：今晚推薦前往 Mahanakhon 大廈，17:45-18:30 是最佳藍調時刻，建築像素點燈與夕陽交織最美。",
+                spots: [{name: "洲際酒店", q: "InterContinental+Bangkok"}, {name: "Central World", q: "Central+World"}, {name: "Mahanakhon", q: "King+Power+Mahanakhon"}] 
             },
             2: { 
-                title: "暹羅靈魂：金碧與純白", weather: "32°C", icon: "fa-sun", outfit: "寺廟尊重裝 (長裙長褲)", 
-                eng: "Royal Heritage", query: "The+Grand+Palace", dist: "河岸交通", time: "09:00 出發", 
-                desc: "適逢初一，是與當地人一起感受信仰力量的最佳時段。大皇宮是曼谷的靈魂節點，這裡的每片金箔都訴說著拉瑪王朝的富庶；跨過昭披耶河到鄭王廟，看那是完全不同的純白陶瓷美學。別忘了，曼谷的初一通常伴隨熱情的陽光，防曬是您的唯一救贖。", 
-                spots: [{name: "大皇宮", q: "The+Grand+Palace"}, {name: "鄭王廟", q: "Wat+Arun"}, {name: "臥佛寺", q: "Wat+Pho"}, {name: "南龍市場", q: "Nang+Loeng+Market"}] 
+                title: "1/29 初一：鮮花與皇室靈魂", weather: "32°C", icon: "fa-sun", outfit: "尊重裝 (長裙長褲)", 
+                eng: "Royal Heritage", query: "The+Grand+Palace", dist: "06:30 早餐", time: "07:30 出發", 
+                desc: "大年初一，曼谷開運行程。從市場香氣出發，直搗泰國建築之巔。玉佛寺的每片玻璃鑲嵌都訴說著拉瑪王朝的輝煌。這是一場神權與美學的視覺風暴。", 
+                notes: "【1/29 精確路線】06:30 早餐 → 08:00 帕空鮮花市場 (買茉莉花掛包包避暑) → 09:15 大皇宮正門。請注意：大皇宮門口若有人說『今日沒開』皆為詐騙，請堅定走入正門維塞猜悉門。",
+                magic: "📸 最頂地標：大皇宮最佳拍攝時間為 08:30-09:30。斜射光均勻灑在金箔上，顏色飽滿且能避開 10 點後的恐怖人潮。",
+                spots: [{name: "帕空鮮花市場", q: "Pak+Khlong+Talat"}, {name: "大皇宮/玉佛寺", q: "The+Grand+Palace"}, {name: "臥佛寺", q: "Wat+Pho"}] 
             },
             3: { 
-                title: "當古典遇上現代奢華", weather: "33°C", icon: "fa-gem", outfit: "浮誇商場裝", 
+                title: "轉場：河畔摺紙與現代奢華", weather: "33°C", icon: "fa-gem", outfit: "浮誇商場裝", 
                 eng: "Shopping Majesty", query: "Grand+Hyatt+Erawan+Bangkok", dist: "0.2 km 轉場", time: "11:00 移居", 
-                desc: "今日從洲際移駕隔壁的君悅飯店，這是一個很有趣的地理轉場。下午直攻 ICONSIAM，這座被譽為「百貨公司中的博物館」的建築，完美融合了室內水上市場與現代工藝。在這裡，您會發現泰國人處理視覺美感的才華，簡直是種超能力。", 
-                spots: [{name: "君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok"}, {name: "ICONSIAM", q: "ICONSIAM"}, {name: "暹羅商圈", q: "Siam+Square"}, {name: "金線捷運", q: "BTS+Gold+Line"}] 
+                desc: "今日從洲際移至君悅。下午直攻 ICONSIAM，這座被建築界譽為『百貨博物館』的巨作，完美融合了摺紙藝術與室內水上市場。", 
+                notes: "支付筆記：ICONSIAM 內大多數精品與餐廳均支援信用卡，但在一樓 SookSiam 水上市場區，使用『玉山/全支付』掃碼 PromptPay 會比現金更方便，匯率也更優。",
+                magic: "📸 最頂地標：ICONSIAM 最佳拍攝時間為 18:30-19:30。摺紙玻璃幕牆亮起金光，倒映在昭披耶河面上，呈現極致奢華感。",
+                spots: [{name: "君悅酒店", q: "Grand+Hyatt+Erawan+Bangkok"}, {name: "ICONSIAM", q: "ICONSIAM"}, {name: "Siam Paragon", q: "Siam+Paragon"}] 
             },
             4: { 
                 title: "市場靈魂與霓虹夜晚", weather: "32°C", icon: "fa-shrimp", outfit: "透氣輕裝", 
-                eng: "Local Vibes", query: "Or+Tor+Kor+Market", dist: "Transit", time: "10:00 出發", 
-                desc: "曼谷人的生活，是從市場開始的。安多哥市場 (Or Tor Kor) 是「米其林級」的菜市場，雖然價格略高，但那是對品質的尊重。傍晚前往喬德夜市，體驗曼谷最熱血的庶民經濟。如果您沒吃過火山排骨，別說您懂曼谷的澎湃。", 
-                spots: [{name: "安多哥市場", q: "Or+Tor+Kor+Market"}, {name: "洽圖洽市集", q: "Chatuchak+Market"}, {name: "喬德夜市", q: "Jodd+Fairs"}, {name: "君悅酒廊", q: "Grand+Hyatt+Club"}] 
+                eng: "Local Vibes", query: "Or+Tor+Kor+Market", dist: "MRT Transit", time: "10:00 出發", 
+                desc: "曼谷人的生活，是從市場開始的。安多哥市場是『米其林級』的菜市場，雖然價格略高，但那是對品質與味蕾的尊重。", 
+                notes: "生活筆記：安多哥市場極度乾淨，適合初次造訪曼谷的朋友。傍晚前往喬德夜市體驗曼谷最熱血的庶民經濟。記得準備 20/100 泰銖紙鈔，小店仍可能以現金為主。",
+                magic: "📸 拍攝提示：傍晚在喬德夜市，可以嘗試從高處拍攝那密密麻麻的彩色帳篷頂，那是曼谷夜晚最具生命力的線條。",
+                spots: [{name: "安多哥市場", q: "Or+Tor+Kor+Market"}, {name: "洽圖洽市集", q: "Chatuchak+Market"}, {name: "喬德夜市", q: "Jodd+Fairs"}] 
             },
             5: { 
                 title: "最終祈福與泰式賦歸", weather: "31°C", icon: "fa-plane", outfit: "休閒飛行裝", 
                 eng: "Blessing & Farewell", query: "Suvarnabhumi+Airport", dist: "BTS + ARL", time: "11:00 採購", 
-                desc: "臨行前，在君悅飯店旁的四面佛做最後的道別。這尊神像曾在曼谷多次危難中給予人心平靜。最後衝刺 Big C，那是每個旅人回台灣前的神聖儀式。搭乘機場快線避開那些令人絕望的塞車陣，曼谷 Saga 圓滿終章。", 
-                spots: [{name: "四面佛", q: "Erawan+Shrine"}, {name: "Big C", q: "Big+C+Supercenter"}, {name: "機場快線", q: "Phaya+Thai+ARL"}, {name: "BKK 機場", q: "Suvarnabhumi+Airport"}] 
+                desc: "臨行前，在君悅旁的四面佛做最後道別。最後衝刺 Big C，那是每個旅人回台灣前的神聖儀式。搭乘機場快線避開絕望的塞車陣。", 
+                notes: "最後提醒：Big C 結帳人潮洶湧，請預留 1.5 小時採買時間。若行李箱空間不足，Big C 門口有紙箱打包服務。搭乘 ARL 前往機場請準備現金買票或感應感應支付。",
+                magic: "📸 拍攝提示：離開前拍一張四面佛在摩天大樓包圍下的照片，那是曼谷『傳統與現代共存』最深刻的縮影。",
+                spots: [{name: "四面佛", q: "Erawan+Shrine"}, {name: "Big C 總店", q: "Big+C+Supercenter+Rajdamri"}, {name: "機場快線", q: "Phaya+Thai+ARL"}] 
             }
         };
 
@@ -128,11 +144,17 @@
                     </div>
                     <div class="gear-card">
                         <div class="gear-weather"><i class="fas ${data.icon} mb-1" style="color:var(--gold); font-size:1.5rem;"></i><div class="fw-bold">${data.weather}</div></div>
-                        <div class="gear-outfit"><div class="outfit-tag">今日穿搭建議</div><div class="fw-bold" style="font-size:0.85rem;">${data.outfit}</div></div>
+                        <div class="gear-outfit"><div class="outfit-tag">衣著建議</div><div class="fw-bold" style="font-size:0.85rem;">${data.outfit}</div></div>
                     </div>
                     <div class="glass-card mb-3">
                         <h6 class="fw-bold small"><i class="fas fa-feather-pointed me-2 text-primary"></i>城市隨筆 (City Notes)</h6>
                         <p class="small text-muted" style="line-height: 1.6;">${data.desc}</p>
+                        <div class="tip-box small text-dark">
+                            <strong><i class="fas fa-lightbulb me-1"></i> 行家備註：</strong><br>${data.notes}
+                        </div>
+                        <div class="mt-3 p-2 border-top small text-secondary">
+                             ${data.magic}
+                        </div>
                         <a href="${getMapLink(data.query)}" target="_blank" class="nav-trigger mt-3">開啟當前目標地圖</a>
                     </div>
                     <div style="height:100px;"></div>
